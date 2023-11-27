@@ -1,0 +1,20 @@
+CI: 4567
+Nombre: juan perez
+Celular: 101010
+------------------------------
+CI: 101010
+Nombre: Nombre 1
+Celular: 11111
+------------------------------
+CI: 444444
+Nombre: nombre4
+Celular: 2344
+------------------------------
+CI: 34444
+Nombre: nombre23
+Celular: 23434
+------------------------------
+CI: 33
+Nombre: Joseee
+Celular: 999
+------------------------------
