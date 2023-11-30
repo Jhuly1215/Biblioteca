@@ -5,6 +5,12 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JOptionPane;
 public class JFMPrestamos extends JFrame {
     private JTable tablePrestamo;
@@ -34,16 +40,6 @@ public class JFMPrestamos extends JFrame {
         lblPrestamo.setFont(new Font("Tahoma", Font.BOLD, 20));
         lblPrestamo.setBounds(51, 64, 101, 14);
         getContentPane().add(lblPrestamo);
-
-        JButton btnAgregar = new JButton("Agregar prestamo");
-        btnAgregar.setBounds(60, 581, 150, 23);
-        getContentPane().add(btnAgregar);
-        btnAgregar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                agregarFila();
-            }
-        });
 
         JButton btnEditar = new JButton("Editar");
         btnEditar.addActionListener(new ActionListener() {
@@ -87,15 +83,78 @@ public class JFMPrestamos extends JFrame {
                 dispose();
             }
         });
-        btnAtras.setBounds(860, 610, 89, 23);
+        btnAtras.setBounds(847, 610, 89, 23);
         getContentPane().add(btnAtras);
+        
+        JButton btnNewButton = new JButton("Agregar Prestamo");
+        btnNewButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+                    JFMAgregarPrestamo frame = new JFMAgregarPrestamo();
+                    frame.setVisible(true);
+                    dispose();
+        	}
+        });
+        btnNewButton.setBounds(48, 581, 154, 23);
+        getContentPane().add(btnNewButton);
+        
+        JButton btnNewButton_1 = new JButton("Mostrar Todo");
+        btnNewButton_1.setBounds(711, 64, 129, 42);
+        getContentPane().add(btnNewButton_1);
+        
+        btnNewButton_1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		//cargarDatosDesdeArchivo("Prestamos.txt");
+        	}
+        });
+        
+        btnNewButton_1.setBounds(767, 138, 145, 36);
+        getContentPane().add(btnNewButton_1);
+        
+        //cargarDatosDesdeArchivo("Prestamos.txt");
     }
-
-    private void agregarFila() {
-        DefaultTableModel model = (DefaultTableModel) tablePrestamo.getModel();
-        model.addRow(new Object[]{"Nuevo CI", "Nuevo ISBM", "Nuevo Estado", "Nueva Fecha prestada", "Nueva Fecha devolucion", "Nueva Multa"});
+    private String extraerValor(String linea, String etiqueta) {
+        return linea.substring(etiqueta.length()).trim();
     }
+    /*
+    private void cargarDatosDesdeArchivo(String nombreArchivo) {
+        List<Prestamos> listaPrestamos = obtenerListaPrestamosDesdeArchivo(nombreArchivo);
 
+        DefaultTableModel modelo = (DefaultTableModel) tablePrestamo.getModel();
+        modelo.setRowCount(0); // Limpiar la tabla antes de cargar nuevos datos
+
+        for (Prestamos prestamo : listaPrestamos) {
+            Object[] fila = new Object[modelo.getColumnCount()];
+            fila[0] = prestamo.getCI(); // CI
+            fila[1] = prestamo.getIBMS(); // IBMS
+            fila[2] = prestamo.getFechaprestamo(); // Fechaprestamo
+            fila[3] = prestamo.getFechadevolucion(); // Fechadevolucion
+            fila[4] = prestamo.getestado; // Multas pendientes (no hay información en el archivo)
+
+            modelo.addRow(fila);
+        }
+    }*/
+    private List<Prestamos> obtenerListaPrestamosDesdeArchivo(String nombreArchivo) {
+        List<Prestamos> listaPrestamo = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(nombreArchivo))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                if (linea.startsWith("CI: ")) {
+                    int ci = Integer.parseInt(extraerValor(linea, "CI: "));
+                    String fechaprestamo = extraerValor(reader.readLine(), "Fecha Prestamo: ");
+                    String fechadevolucion = extraerValor(reader.readLine(), "Fecha Devolucion: ");
+                    String estado = extraerValor(reader.readLine(), "Estado: ");
+
+                    Prestamos prestamo = new Prestamos(ci, fechaprestamo, fechadevolucion,estado);
+                    listaPrestamo.add(prestamo);
+
+                    reader.readLine(); // Leer la línea de separación
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return listaPrestamo;
+    }
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {

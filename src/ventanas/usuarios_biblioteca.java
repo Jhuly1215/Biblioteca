@@ -1,24 +1,61 @@
 package ventanas;
 
 import java.io.BufferedWriter;
+
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
-
+import java.util.Collections;
 public class usuarios_biblioteca {
-	private static HashMap<String, Libro> librosPorCodigoCompartidousuario;
-	public usuarios_biblioteca(Map<String, Libro> librosPorCodigo) {
-        this.librosPorCodigoCompartidousuario = (HashMap<String, Libro>) librosPorCodigo;
+	private static HashMap<Integer, Usuario> usuariosPorCI;
+	private static HashMap<String, Usuario> usuariosPorNombre;
+	List <Usuario> listaUsuarios;
+
+	public usuarios_biblioteca(List<Usuario> usuarios ,List<Libro> libros) {
+       
+        this.usuariosPorCI = new HashMap<>();
+        this.listaUsuarios = new LinkedList<>();
+        for (Usuario usuario : usuarios) {
+            agregarUsuario(usuario);
+        }
         
     }
-    public static void main(String[] args) {
+	public void agregarUsuario(Usuario usuario) {
+        usuariosPorCI.put(usuario.getCI(), usuario);
+        usuariosPorNombre.put(usuario.getNombre(), usuario);
+    
+    }
+	public List<Usuario> buscarPorCI(int ci) {
+		List<Usuario> resultados = new ArrayList<>();
+        usuariosPorCI.forEach((clave, usuario) -> {
+            if (clave == ci) {
+                resultados.add(usuario);
+            }
+        });
+
+        return resultados;
+    }
+	public List<Usuario> buscarPorNombre(String nombre) {
+		List<Usuario> resultados = new ArrayList<>();
+        usuariosPorNombre.forEach((clave, usuario) -> {
+            if (clave == nombre) {
+                resultados.add(usuario);
+            }
+        });
+
+        return resultados;
+    }
+    public static void main() {
 
         Scanner scanner = new Scanner(System.in);
         HashMap<Integer, Usuario> bibliotecaUsuarios = new HashMap<>();
-        usuarios_biblioteca usuario_libro_pres = new usuarios_biblioteca(librosPorCodigoCompartidousuario);
-        Prestamos prestamos = new Prestamos(bibliotecaUsuarios,usuario_libro_pres.librosPorCodigoCompartidousuario);
+        //usuarios_biblioteca usuario_libro_pres = new usuarios_biblioteca(librosPorCodigoCompartidousuario);
+        //Prestamos prestamos = new Prestamos(bibliotecaUsuarios,usuario_libro_pres.librosPorCodigoCompartidousuario);
         int opcion;
         do {
             System.out.println("\nMen� de opciones:");

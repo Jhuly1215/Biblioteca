@@ -123,7 +123,7 @@ public class JFMUsuariosRegistrar extends JFrame {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("Usuarios.txt", true))) {
             String nombre = txNombre.getText();
             int ci = Integer.parseInt(txCI.getText());
-            int celular = Integer.parseInt(txCelular.getText());
+            int celular = Integer.parseInt	(txCelular.getText());
 
             writer.write("CI: " + ci + "\n");
             writer.write("Nombre: " + nombre + "\n");

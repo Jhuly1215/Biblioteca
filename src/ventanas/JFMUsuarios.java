@@ -15,6 +15,7 @@ import java.util.Optional;
 public class JFMUsuarios extends JFrame {
     private JTable tableUsuario;
     private JTextField txBusqueda;
+    private usuarios_biblioteca ubiblioteca;
 
     public JFMUsuarios() {
         getContentPane().setBackground(new Color(62, 95, 138));
@@ -25,6 +26,19 @@ public class JFMUsuarios extends JFrame {
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(51, 185, 861, 364);
         getContentPane().add(scrollPane);
+        
+        JRadioButton rdbtnCI = new JRadioButton("CI");
+        rdbtnCI.setBounds(51, 147, 109, 23);
+        getContentPane().add(rdbtnCI);
+        
+        JRadioButton rdbtnNombre = new JRadioButton("Nombre");
+        rdbtnNombre.setBounds(182, 147, 109, 23);
+        getContentPane().add(rdbtnNombre);
+        
+        ButtonGroup grupoRadioButtons = new ButtonGroup();
+        grupoRadioButtons.add(rdbtnCI);
+        grupoRadioButtons.add(rdbtnNombre);
+        JButton btnMostrarTodo = new JButton("Mostrar todo");
 
         tableUsuario = new JTable();
         tableUsuario.setEnabled(true);
@@ -105,6 +119,33 @@ public class JFMUsuarios extends JFrame {
         getContentPane().add(btnAtras);
         
         JButton btnBuscar = new JButton("Buscar");
+        btnBuscar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String valorBusqueda = txBusqueda.getText().trim();
+                List<Usuario> resultados = new ArrayList<>();
+                if (valorBusqueda.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Ingrese un término de búsqueda.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                }
+                else if (rdbtnCI.isSelected() || rdbtnNombre.isSelected() ){
+                	DefaultTableModel modeloFiltrado=new DefaultTableModel(new String[] {"CI", "Nombre", "Celular", "Libros Pendientes", "Multas pendientes" },0);
+                	if (rdbtnCI.isSelected()) {
+                		int cii = Integer.parseInt(valorBusqueda);
+                        resultados.addAll(ubiblioteca.buscarPorCI(cii));
+                        //DefaultTableModel filtrado=new DefaultTableModel(new Object[] {resultados.get(0),resultados.get(1),resultados.get(2),resultados.get(3),resultados.get(4)});
+                        
+                    }
+                    if (rdbtnNombre.isSelected()) {
+                        resultados.addAll(ubiblioteca.buscarPorNombre(valorBusqueda));
+                    }
+                   
+                    
+                    		
+                } else {
+                   JOptionPane.showMessageDialog(null, "Seleccionar criterio a buscar.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                }
+                
+            }
+        });
         btnBuscar.setBounds(51, 89, 105, 36);
         getContentPane().add(btnBuscar);
         
@@ -122,18 +163,7 @@ public class JFMUsuarios extends JFrame {
             }
         });
         
-        JRadioButton rdbtnCI = new JRadioButton("CI");
-        rdbtnCI.setBounds(51, 147, 109, 23);
-        getContentPane().add(rdbtnCI);
         
-        JRadioButton rdbtnNombre = new JRadioButton("Nombre");
-        rdbtnNombre.setBounds(182, 147, 109, 23);
-        getContentPane().add(rdbtnNombre);
-        
-        ButtonGroup grupoRadioButtons = new ButtonGroup();
-        grupoRadioButtons.add(rdbtnCI);
-        grupoRadioButtons.add(rdbtnNombre);
-        JButton btnMostrarTodo = new JButton("Mostrar todo");
         
         btnMostrarTodo.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
