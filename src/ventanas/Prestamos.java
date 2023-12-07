@@ -7,20 +7,52 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Prestamos{
-	private LinkedList<Prestamos> listaPrestamos;
-	HashMap<Integer, Usuario> usuariosPorCI;
-	HashMap<String, Libro> librosPorISBN;
+public class Prestamos {
+    private LinkedList<Prestamos> listaPrestamos;
+    private HashMap<Integer, Usuario> usuariosPorCI;
+    private HashMap<String, Libro> librosPorISBN;
     private String fechaPrestamo;
     private String fechaDevolucion;
     private String estado;
-    public Prestamos(List<Usuario> usuario,List<Libro> libros, String fechaPrestamo, String fechaDevolucion, String estado) {
+
+    public Prestamos(HashMap<Integer, Usuario> usuarios, HashMap<String, Libro> libros, String fechaPrestamo, String fechaDevolucion, String estado) {
+        this.usuariosPorCI = usuarios;
+        this.librosPorISBN = libros;
         this.fechaPrestamo = fechaPrestamo;
         this.fechaDevolucion = fechaDevolucion;
         this.estado = estado;
+    }	
+    public Usuario getci() {
+        // Lógica para obtener el Usuario (por ejemplo, el primer elemento del HashMap)
+        if (!usuariosPorCI.isEmpty()) {
+            return usuariosPorCI.values().iterator().next();
+        } else {
+            return null; // O manejar el caso en el que no haya ningún Usuario en el HashMap
+        }
+    }
+
+    public Libro getcodigoLibro() {
+        // Lógica para obtener el Libro (por ejemplo, el primer elemento del HashMap)
+        if (!librosPorISBN.isEmpty()) {
+            return librosPorISBN.values().iterator().next();
+        } else {
+            return null; // O manejar el caso en el que no haya ningún Libro en el HashMap
+        }
+    }
+
+    public String getfechaPrestamo() {
+        return fechaPrestamo;
+    }
+
+    public String getfechaDevolucion() {
+        return fechaDevolucion;
+    }
+
+    public String getestado() {
+        return estado;
     }
    
-    public Prestamos(int ci, String fechaprestamo2, String fechadevolucion2, String estado2) {
+    public Prestamos(int ci, int codigoLibro, String fechaprestamo, String fechadevolucion, String estado2) {
 		// TODO Auto-generated constructor stub
 	}
 
