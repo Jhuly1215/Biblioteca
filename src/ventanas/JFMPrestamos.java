@@ -101,17 +101,7 @@ public class JFMPrestamos extends JFrame {
         	}
         });
         getContentPane().add(btnNewButton);
-        JButton btnNewButton_1 = new JButton("Mostrar Todo");
-        btnNewButton_1.setBounds(761, 64, 145, 36);
-        getContentPane().add(btnNewButton_1);
-        
-        btnNewButton_1.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		//cargarDatosDesdeArchivo("Prestamos.txt");
-        		cargarDatosDesdeArchivo("Prestamos.txt");
-        	}
-        });
-        getContentPane().add(btnNewButton_1);
+      
         cargarDatosDesdeArchivo("Prestamos.txt");
         
     }
