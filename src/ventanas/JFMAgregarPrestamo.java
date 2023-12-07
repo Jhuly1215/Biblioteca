@@ -149,7 +149,7 @@ public class JFMAgregarPrestamo extends JFrame {
             String estado= "Pendiente";
             
             writer.write("CI: " + ci + "\n");
-            writer.write("Nombre: " + codigoLibro + "\n");
+            writer.write("Codigo Libro: " + codigoLibro + "\n");
             writer.write("Fecha prestamo: " + fechaprestamo + "\n");
             writer.write("Fecha devolucion: " + fechadevolucion + "\n");
             writer.write("Estado: " + estado + "\n");
