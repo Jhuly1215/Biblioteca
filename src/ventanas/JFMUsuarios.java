@@ -17,12 +17,18 @@ public class JFMUsuarios extends JFrame {
     private JTable tableUsuario;
     private JTextField txBusqueda;
     private usuarios_biblioteca ubiblioteca;
-
+    private List<Usuario> listaDeUsuarios;  
+    private List<Libro> listaDeLibros;
     public JFMUsuarios() {
         getContentPane().setBackground(new Color(62, 95, 138));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 1000, 700);
         getContentPane().setLayout(null);
+        
+        listaDeUsuarios = obtenerListaUsuariosDesdeArchivo("Usuarios.txt");
+        listaDeLibros = obtenerListaLibrosDesdeArchivo("LibrosGuardados.txt");
+        ubiblioteca = new usuarios_biblioteca(listaDeUsuarios, listaDeLibros);
+
 
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(51, 185, 861, 364);
@@ -124,12 +130,6 @@ public class JFMUsuarios extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String valorBusqueda = txBusqueda.getText().trim();
                 List<Usuario> resultados = new ArrayList<>();     
-                if (ubiblioteca == null) {
-                    // Si ubiblioteca no está inicializado
-                    JOptionPane.showMessageDialog(null, "La biblioteca de usuarios no está inicializada.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                
                 if (valorBusqueda.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Ingrese un término de búsqueda.", "Aviso", JOptionPane.WARNING_MESSAGE);
                 } else if (rdbtnCI.isSelected() || rdbtnNombre.isSelected()) {
@@ -144,7 +144,6 @@ public class JFMUsuarios extends JFrame {
                     if (rdbtnNombre.isSelected()) {
                         resultados.addAll(ubiblioteca.buscarPorNombre(valorBusqueda));
                     }
-
                     cargarDatosTabla(resultados);
                 } else {
                     JOptionPane.showMessageDialog(null, "Seleccionar criterio a buscar.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
@@ -227,13 +226,37 @@ public class JFMUsuarios extends JFrame {
             fila[0] = usuario.getCI(); // CI
             fila[1] = usuario.getNombre(); // Nombre
             fila[2] = usuario.getCelular(); // Celular
-            fila[3] = ""; // Libros Pendientes (no hay información en el archivo)
-            fila[4] = ""; // Multas pendientes (no hay información en el archivo)
+            fila[3] = usuario.isLibroPrestado() ? "Sí" : "No"; // Libros Pendientes (no hay información en el archivo)
+            fila[4] = usuario.isMultaPendiente() ? "Sí" : "No"; // Multas pendientes (no hay información en el archivo)
 
             modelo.addRow(fila);
         }
     }
+    private List<Libro> obtenerListaLibrosDesdeArchivo(String nombreArchivo) {
+        List<Libro> listaLibros = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(nombreArchivo))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+            
+                String isbn = extraerValor(linea, "ISBN:");
+                String titulo = extraerValor(reader.readLine(), "Título:");
+                String autor = extraerValor(reader.readLine(), "Autor:");
+                String genero = extraerValor(reader.readLine(), "Género:");
+                int anioPublicacion = Integer.parseInt(extraerValor(reader.readLine(), "Año de Publicación:"));
+                int cantidad = Integer.parseInt(extraerValor(reader.readLine(), "Cantidad:"));
+                String rutaImagen = extraerValor(reader.readLine(), "Ruta de la Imagen:");
 
+                Libro libro = new Libro(isbn, titulo, autor, genero, anioPublicacion, cantidad, rutaImagen);
+                listaLibros.add(libro);
+                // Leer la línea en blanco
+                reader.readLine();
+            }
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return listaLibros;
+    }
     private List<Usuario> obtenerListaUsuariosDesdeArchivo(String nombreArchivo) {
         List<Usuario> listaUsuario = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(nombreArchivo))) {
@@ -264,8 +287,8 @@ public class JFMUsuarios extends JFrame {
             fila[0] = usuario.getCI(); // CI
             fila[1] = usuario.getNombre(); // Nombre
             fila[2] = usuario.getCelular(); // Celular
-            fila[3] = ""; // Libros Pendientes (no hay información en el archivo)
-            fila[4] = ""; // Multas pendientes (no hay información en el archivo)
+            fila[3] = usuario.isLibroPrestado() ? "Sí" : "No";
+            fila[4] = usuario.isMultaPendiente() ? "Sí" : "No"; 
 
             modelo.addRow(fila);
         }
