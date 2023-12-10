@@ -19,12 +19,14 @@ import java.util.List;
 import javax.swing.JOptionPane;
 public class JFMPrestamos extends JFrame {
     private JTable tablePrestamo;
-
+    
     public JFMPrestamos() {
     	getContentPane().setBackground(new Color(62, 95, 138));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 1000, 700);
         getContentPane().setLayout(null);
+        
+        
 
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(48, 122, 800, 400);
