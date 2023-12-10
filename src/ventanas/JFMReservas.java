@@ -10,7 +10,7 @@ public class JFMReservas extends JFrame {
     private JTable tablePrestamo;
 
     public JFMReservas() {
-    	getContentPane().setBackground(new Color(62, 95, 138));
+        getContentPane().setBackground(new Color(62, 95, 138));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 1000, 700);
         getContentPane().setLayout(null);
@@ -22,11 +22,11 @@ public class JFMReservas extends JFrame {
         tablePrestamo = new JTable();
         tablePrestamo.setEnabled(false);
         tablePrestamo.setModel(new DefaultTableModel(
-        	new Object[][] {
-        	},
-        	new String[] {
-        		"Usuario", "Libro", "Fecha de reserva"
-        	}
+                new Object[][] {
+                },
+                new String[] {
+                        "Usuario", "Libro", "Fecha de reserva"
+                }
         ));
         scrollPane.setViewportView(tablePrestamo);
 
@@ -48,7 +48,7 @@ public class JFMReservas extends JFrame {
         JButton btnEditar = new JButton("Editar");
         btnEditar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	boolean editable = !tablePrestamo.isEditing();
+                boolean editable = !tablePrestamo.isEditing();
                 tablePrestamo.setEnabled(editable);
             }
         });
@@ -57,24 +57,24 @@ public class JFMReservas extends JFrame {
 
         JButton btnEliminar = new JButton("Eliminar");
         btnEliminar.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		int filaSeleccionada = tablePrestamo.getSelectedRow();
+            public void actionPerformed(ActionEvent e) {
+                int filaSeleccionada = tablePrestamo.getSelectedRow();
                 if (filaSeleccionada >= 0) {
                     DefaultTableModel model = (DefaultTableModel) tablePrestamo.getModel();
                     model.removeRow(filaSeleccionada);
                 } else {
                     JOptionPane.showInternalConfirmDialog(null, "Selecciona una fila para eliminar", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-        	}
+            }
         });
         btnEliminar.setBounds(637, 581, 150, 23);
         getContentPane().add(btnEliminar);
 
         JButton btnActualizar = new JButton("Actualizar");
         btnActualizar.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		tablePrestamo.setEnabled(false);
-        	}
+            public void actionPerformed(ActionEvent e) {
+                tablePrestamo.setEnabled(false);
+            }
         });
         btnActualizar.setBounds(452, 581, 150, 23);
         getContentPane().add(btnActualizar);
@@ -82,8 +82,8 @@ public class JFMReservas extends JFrame {
         JButton btnAtras = new JButton("Atras");
         btnAtras.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	JFMPantallaInicio pantallaInicio = new JFMPantallaInicio();
-        		pantallaInicio.setVisible(true);
+                JFMPantallaInicio pantallaInicio = new JFMPantallaInicio();
+                pantallaInicio.setVisible(true);
                 dispose();
             }
         });
@@ -107,4 +107,3 @@ public class JFMReservas extends JFrame {
         });
     }
 }
-

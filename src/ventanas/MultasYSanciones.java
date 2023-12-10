@@ -78,4 +78,3 @@ public class MultasYSanciones {
         System.out.println("Penalización total para " + usuarioConsulta + ": $" + penalizacionTotal);
     }
 }
-

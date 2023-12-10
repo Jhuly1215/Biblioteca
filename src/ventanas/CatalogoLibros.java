@@ -15,7 +15,7 @@ public class CatalogoLibros {
     Map<String, Libro> librosPorISBN;
     Map<String, Libro> librosPorGenero;
     Map<String, Integer> existencias;
-    
+
     List<Libro> listaLibros;
 
     public CatalogoLibros(List<Libro> libros) {
@@ -35,7 +35,7 @@ public class CatalogoLibros {
         librosPorAutor.put(libro.getAutor(), libro);
         librosPorGenero.put(libro.getGenero(), libro);
     }
-    
+
     public List<Libro> buscarPorISBN(String isbn) {
         List<Libro> resultados = new ArrayList<>();
         librosPorISBN.forEach((clave, libro) -> {
@@ -131,7 +131,7 @@ public class CatalogoLibros {
 
         return librosEncontrados;
     }
-    
+
 
     // Nuevo método para mostrar la disponibilidad de un libro
     public void mostrarDisponibilidad(String codigoLibro) {

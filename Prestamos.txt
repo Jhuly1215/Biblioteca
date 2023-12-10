@@ -1,18 +1,88 @@
+PrID: 1
 CI: 111
 Codigo Libro: N0004
 Fecha prestamo: 12/12/2023
 Fecha devolucion: 14/12/2023
-Estado: Pendiente
+Estado: Devuelto
+Fecha devuelto: 10/12/2023
 ------------------------------
+PrID: 2
 CI: 101010
 Codigo Libro: N0004
 Fecha prestamo: 11/12/2021
 Fecha devolucion: 15/12/2021
-Estado: Pendiente
+Estado: Devuelto
+Fecha devuelto: 13/12/2021
 ------------------------------
+PrID: 3
 CI: 101010
 Codigo Libro: N0004
 Fecha prestamo: 11/12/2020
-Fecha devolucion: 11/12/2020
+Fecha devolucion: 15/12/2020
+Estado: Devuelto
+Fecha devuelto: 16/12/2020
+------------------------------
+PrID: 4
+CI: 101010
+Codigo Libro: N0004
+Fecha prestamo: 12/12/2023
+Fecha devolucion: 15/12/2023
+Estado: Devuelto
+Fecha devuelto: 10/12/2023
+------------------------------
+PrID: 5
+CI: 101010
+Codigo Libro: N0004
+Fecha prestamo: 12/12/2023
+Fecha devolucion: 15/12/2023
+Estado: Devuelto
+Fecha devuelto: 10/12/2023
+------------------------------
+PrID: 6
+CI: 101010
+Codigo Libro: N0004
+Fecha prestamo: 12/12/2023
+Fecha devolucion: 14/12/2023
+Estado: Devuelto
+Fecha devuelto: 10/12/2023
+------------------------------
+PrID: 7
+CI: 101010
+Codigo Libro: N0004
+Fecha prestamo: 10/12/2023
+Fecha devolucion: 15/12/2023
 Estado: Pendiente
+Fecha devuelto: Sin devolver
+------------------------------
+PrID: 8
+CI: 4567
+Codigo Libro: N0003
+Fecha prestamo: 10/12/2023
+Fecha devolucion: 25/12/2023
+Estado: Pendiente
+Fecha devuelto: Sin devolver
+------------------------------
+PrID: 9
+CI: 4567
+Codigo Libro: N0004
+Fecha prestamo: 20/11/2023
+Fecha devolucion: 30/11/2023
+Estado: Pendiente
+Fecha devuelto: Sin devolver
+------------------------------
+PrID: 10
+CI: 4567
+Codigo Libro: N0004
+Fecha prestamo: 20/11/2023
+Fecha devolucion: 28/11/2023
+Estado: Devuelto
+Fecha devuelto: 30/11/2023
+------------------------------
+PrID: 11
+CI: 101010
+Codigo Libro: N0004
+Fecha prestamo: 20/11/2023
+Fecha devolucion: 30/12/2023
+Estado: Pendiente
+Fecha devuelto: Sin devolver
 ------------------------------

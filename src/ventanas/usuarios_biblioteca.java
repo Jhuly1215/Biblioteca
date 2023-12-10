@@ -12,26 +12,26 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Collections;
 public class usuarios_biblioteca {
-	private static HashMap<Integer, Usuario> usuariosPorCI;
-	private static HashMap<String, Usuario> usuariosPorNombre;
-	List <Usuario> listaUsuarios;
+    private static HashMap<Integer, Usuario> usuariosPorCI;
+    private static HashMap<String, Usuario> usuariosPorNombre;
+    List <Usuario> listaUsuarios;
 
-	public usuarios_biblioteca(List<Usuario> usuarios ,List<Libro> libros) {
-       
-		this.usuariosPorCI = new HashMap<>();
-	    this.usuariosPorNombre = new HashMap<>();
-	    this.listaUsuarios = new LinkedList<>();
-	    
+    public usuarios_biblioteca(List<Usuario> usuarios ,List<Libro> libros) {
+
+        this.usuariosPorCI = new HashMap<>();
+        this.usuariosPorNombre = new HashMap<>();
+        this.listaUsuarios = new LinkedList<>();
+
         for (Usuario usuario : usuarios) {
             agregarUsuario(usuario);
         }
     }
-	public void agregarUsuario(Usuario usuario) {
+    public void agregarUsuario(Usuario usuario) {
         usuariosPorCI.put(usuario.getCI(), usuario);
         usuariosPorNombre.put(usuario.getNombre(), usuario);
-    
+
     }
-	public List<Usuario> buscarPorCI(int ci) {
+    public List<Usuario> buscarPorCI(int ci) {
         List<Usuario> resultados = new ArrayList<>();
         usuariosPorCI.forEach((clave, usuario) -> {
             if (clave == ci) {
@@ -42,7 +42,7 @@ public class usuarios_biblioteca {
         return resultados;
     }
 
-	public List<Usuario> buscarPorNombre(String nombre) {
+    public List<Usuario> buscarPorNombre(String nombre) {
         List<Usuario> resultados = new ArrayList<>();
         usuariosPorNombre.forEach((clave, usuario) -> {
             if (clave.equalsIgnoreCase(nombre)) {
@@ -66,7 +66,7 @@ public class usuarios_biblioteca {
             System.out.println("4. Salir");
             System.out.print("Ingrese el n�mero de opci�n: ");
             opcion = scanner.nextInt();
-            scanner.nextLine(); 
+            scanner.nextLine();
 
             switch (opcion) {
                 case 1:
@@ -111,7 +111,7 @@ public class usuarios_biblioteca {
         System.out.print("Ingrese el carnet del usuario: ");
         int numeroCarnet = scanner.nextInt();
         scanner.nextLine();
-        
+
         Usuario usuario = bibliotecaUsuarios.get(numeroCarnet);
         if (usuario != null) {
             System.out.println("Informaci�n del usuario:");
@@ -152,5 +152,5 @@ public class usuarios_biblioteca {
             System.out.println("Usuario no encontrado.");
         }
     }
-    
+
 }
