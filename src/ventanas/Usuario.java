@@ -3,7 +3,7 @@ package ventanas;
 import java.util.HashMap;
 
 public class Usuario {
-	private int ci;
+    private int ci;
     private String nombreCompleto;
     private int celular;
     private boolean libroPrestado;
@@ -19,10 +19,10 @@ public class Usuario {
         this.multaPendiente = false;
     }
     public int getCI() {
-    	return ci;
+        return ci;
     }
     public void setCI(int n) {
-    	this.ci=n;
+        this.ci=n;
     }
     public String getNombre() {
         return nombreCompleto;

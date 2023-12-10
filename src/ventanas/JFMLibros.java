@@ -46,28 +46,28 @@ public class JFMLibros extends JFrame {
         panelTarjetas.setBounds(28, 156, 915, 400);
         getContentPane().add(panelTarjetas);
         panelTarjetas.setLayout(new GridLayout(0, 1));
-        
+
         JScrollPane scrollPane = new JScrollPane(panelTarjetas);
         scrollPane.setBounds(28, 156, 915, 400);
         getContentPane().add(scrollPane);
-        
+
         JButton btnAgregarLibro = new JButton("Agregar libro");
         btnAgregarLibro.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		abrirVentanaRegistrar();
-        		dispose();
-        	}
+            public void actionPerformed(ActionEvent e) {
+                abrirVentanaRegistrar();
+                dispose();
+            }
         });
         btnAgregarLibro.setBounds(27, 567, 145, 40);
         getContentPane().add(btnAgregarLibro);
-        
+
         JButton btnBack = new JButton("Atras");
         btnBack.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		JFMPantallaInicio pantallaInicio = new JFMPantallaInicio();
-        		pantallaInicio.setVisible(true);
-        		dispose();
-        	}
+            public void actionPerformed(ActionEvent e) {
+                JFMPantallaInicio pantallaInicio = new JFMPantallaInicio();
+                pantallaInicio.setVisible(true);
+                dispose();
+            }
         });
         btnBack.setBounds(860, 610, 89, 23);
         getContentPane().add(btnBack);
@@ -75,9 +75,9 @@ public class JFMLibros extends JFrame {
         //para sacar los datos del libro
         List<Libro> listaLibros = obtenerListaLibrosDesdeArchivo("LibrosGuardados.txt");
         cargarBotonesLibros(listaLibros);
-       
-    	//motor de busqueda
-    	getContentPane().setBackground(new Color(62, 95, 138));
+
+        //motor de busqueda
+        getContentPane().setBackground(new Color(62, 95, 138));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 1000, 700);
         getContentPane().setLayout(null);
@@ -94,31 +94,31 @@ public class JFMLibros extends JFrame {
         JRadioButton rdbtnTitulo = new JRadioButton("Titulo");
         rdbtnTitulo.setBounds(145, 126, 109, 23);
         getContentPane().add(rdbtnTitulo);
-        
+
         JRadioButton rdbtnIsbn = new JRadioButton("ISBN");
         rdbtnIsbn.setBounds(261, 126, 109, 23);
         getContentPane().add(rdbtnIsbn);
-        
+
         JRadioButton rdbtnGenero = new JRadioButton("Genero");
         rdbtnGenero.setBounds(380, 126, 109, 23);
         getContentPane().add(rdbtnGenero);
-        
+
         ButtonGroup grupoRadioButtons = new ButtonGroup();
         grupoRadioButtons.add(rdbtnAutor);
         grupoRadioButtons.add(rdbtnTitulo);
         grupoRadioButtons.add(rdbtnIsbn);
         grupoRadioButtons.add(rdbtnGenero);
-        
+
         List<Libro> librosIniciales = obtenerListaLibrosDesdeArchivo("LibrosGuardados.txt");
         catalogo = new CatalogoLibros(librosIniciales);
-       
+
         txBusqueda = new JTextField();
         txBusqueda.setBounds(139, 81, 247, 20);
         getContentPane().add(txBusqueda);
         txBusqueda.setColumns(10);
-        
+
         JButton btnBuscar = new JButton("Buscar");
-        
+
         txBusqueda.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -135,7 +135,7 @@ public class JFMLibros extends JFrame {
                     JOptionPane.showMessageDialog(null, "Ingrese un término de búsqueda.", "Aviso", JOptionPane.WARNING_MESSAGE);
                 }
                 else if (rdbtnAutor.isSelected() || rdbtnTitulo.isSelected() || rdbtnGenero.isSelected() || rdbtnIsbn.isSelected()) {
-                	if (rdbtnAutor.isSelected()) {
+                    if (rdbtnAutor.isSelected()) {
                         resultados.addAll(catalogo.buscarPorAutor(valorBusqueda));
                     }
                     if (rdbtnTitulo.isSelected()) {
@@ -153,27 +153,27 @@ public class JFMLibros extends JFrame {
                     panelTarjetas.revalidate();
                     panelTarjetas.repaint();
                 } else {
-                   JOptionPane.showMessageDialog(null, "Seleccionar criterio a buscar.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Seleccionar criterio a buscar.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                 }
-                
+
             }
         });
 
         btnBuscar.setBounds(28, 80, 88, 23);
-        
+
 
         getContentPane().add(btnBuscar);
-        
+
         JButton btnMostrarTodo = new JButton("Mostrar todo");
         btnMostrarTodo.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		panelTarjetas.removeAll();
-        		cargarBotonesLibros(listaLibros);
-        		panelTarjetas.revalidate();
+            public void actionPerformed(ActionEvent e) {
+                panelTarjetas.removeAll();
+                cargarBotonesLibros(listaLibros);
+                panelTarjetas.revalidate();
                 panelTarjetas.repaint();
-        	}
+            }
         });
-        
+
         btnMostrarTodo.setBounds(192, 567, 145, 40);
         getContentPane().add(btnMostrarTodo);
     }
@@ -182,7 +182,7 @@ public class JFMLibros extends JFrame {
         for (Libro libro : listaLibros) {
             JButton buttonLibro = new JButton();
             buttonLibro.setLayout(new BorderLayout());
-            
+
             panelLibrito panelDetalles= new panelLibrito(libro);
 
             buttonLibro.add(panelDetalles, BorderLayout.CENTER);
@@ -192,8 +192,8 @@ public class JFMLibros extends JFrame {
             buttonLibro.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                	dispose();
-                	JFMLibrosDescripcion frameDescripcion = new JFMLibrosDescripcion(libro);
+                    dispose();
+                    JFMLibrosDescripcion frameDescripcion = new JFMLibrosDescripcion(libro);
                     frameDescripcion.setVisible(true);
                     dispose();
                 }
@@ -203,13 +203,13 @@ public class JFMLibros extends JFrame {
         }
     }
 
-  
+
     private List<Libro> obtenerListaLibrosDesdeArchivo(String nombreArchivo) {
         List<Libro> listaLibros = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(nombreArchivo))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
-            
+
                 String isbn = extraerValor(linea, "ISBN:");
                 String titulo = extraerValor(reader.readLine(), "Título:");
                 String autor = extraerValor(reader.readLine(), "Autor:");
@@ -226,12 +226,12 @@ public class JFMLibros extends JFrame {
                 // Leer la línea en blanco
                 reader.readLine();
             }
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
         cargarBotonesLibros(listaLibros);
-        
+
         return listaLibros;
     }
     private String extraerValor(String linea, String etiqueta) {
@@ -244,7 +244,7 @@ public class JFMLibros extends JFrame {
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
-      
+
                 JFMLibros frame = new JFMLibros();
                 frame.setVisible(true);
             } catch (Exception e) {

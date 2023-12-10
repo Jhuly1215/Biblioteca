@@ -1,7 +1,7 @@
 package ventanas;
 
 public class Libro {
-	private String isbn, titulo, autor, genero, ruta;
+    private String isbn, titulo, autor, genero, ruta;
     private int anioPublicacion;
     private int cantidad;
 
@@ -73,12 +73,12 @@ public class Libro {
     @Override
     public String toString() {
         return "Código: " + isbn + "\n" +
-               "Título: " + titulo + "\n" +
-               "Autor: " + autor + "\n" +
-               "Género: " + genero + "\n" +
-               "Año de Publicación: " + anioPublicacion + "\n" +
-               "Cantidad: " + cantidad + "\n" +
-               "Disponible: " + (disponible() ? "Sí" : "No");
+                "Título: " + titulo + "\n" +
+                "Autor: " + autor + "\n" +
+                "Género: " + genero + "\n" +
+                "Año de Publicación: " + anioPublicacion + "\n" +
+                "Cantidad: " + cantidad + "\n" +
+                "Disponible: " + (disponible() ? "Sí" : "No");
     }
 
     public boolean disponible() {
@@ -101,5 +101,3 @@ public class Libro {
         return titulo.toLowerCase().contains(valor.toLowerCase()) ||autor.toLowerCase().contains(valor.toLowerCase()) || isbn.toLowerCase().contains(valor.toLowerCase()) ||genero.toLowerCase().contains(valor.toLowerCase());
     }
 }
-
-
