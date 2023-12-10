@@ -73,15 +73,6 @@ public class JFMPrestamos extends JFrame {
         });
         getContentPane().add(btnEliminar);
 
-        JButton btnActualizar = new JButton("Actualizar");
-        btnActualizar.setBounds(452, 581, 150, 23);
-        btnActualizar.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		tablePrestamo.setEnabled(false);
-        	}
-        });
-        getContentPane().add(btnActualizar);
-
         JButton btnAtras = new JButton("Atras");
         btnAtras.setBounds(847, 610, 89, 23);
         btnAtras.addActionListener(new ActionListener() {
@@ -138,16 +129,7 @@ public class JFMPrestamos extends JFrame {
             return "";
         }
     }
-
-    private int parseIntegerValue(String value) {
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            return 0;
-        }
-    }
     
-
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
