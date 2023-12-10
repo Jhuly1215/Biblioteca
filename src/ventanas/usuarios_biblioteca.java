@@ -18,12 +18,13 @@ public class usuarios_biblioteca {
 
 	public usuarios_biblioteca(List<Usuario> usuarios ,List<Libro> libros) {
        
-        this.usuariosPorCI = new HashMap<>();
-        this.listaUsuarios = new LinkedList<>();
+		this.usuariosPorCI = new HashMap<>();
+	    this.usuariosPorNombre = new HashMap<>();
+	    this.listaUsuarios = new LinkedList<>();
+	    
         for (Usuario usuario : usuarios) {
             agregarUsuario(usuario);
         }
-        
     }
 	public void agregarUsuario(Usuario usuario) {
         usuariosPorCI.put(usuario.getCI(), usuario);
@@ -31,7 +32,7 @@ public class usuarios_biblioteca {
     
     }
 	public List<Usuario> buscarPorCI(int ci) {
-		List<Usuario> resultados = new ArrayList<>();
+        List<Usuario> resultados = new ArrayList<>();
         usuariosPorCI.forEach((clave, usuario) -> {
             if (clave == ci) {
                 resultados.add(usuario);
@@ -40,14 +41,14 @@ public class usuarios_biblioteca {
 
         return resultados;
     }
+
 	public List<Usuario> buscarPorNombre(String nombre) {
-		List<Usuario> resultados = new ArrayList<>();
+        List<Usuario> resultados = new ArrayList<>();
         usuariosPorNombre.forEach((clave, usuario) -> {
-            if (clave == nombre) {
+            if (clave.equalsIgnoreCase(nombre)) {
                 resultados.add(usuario);
             }
         });
-
         return resultados;
     }
     public static void main() {
