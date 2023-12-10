@@ -75,8 +75,6 @@ public class usuarios_biblioteca {
                     buscarYEditarUsuario(scanner, bibliotecaUsuarios);
                     break;
                 case 3:
-                    borrarUsuario(scanner, bibliotecaUsuarios);
-                    break;
                 case 4:
                     System.out.println("Saliendo del programa...");
                     break;
@@ -149,20 +147,6 @@ public class usuarios_biblioteca {
                     System.out.println("Opci�n no v�lida. Volviendo al men� principal.");
                     break;
             }
-        } else {
-            System.out.println("Usuario no encontrado.");
-        }
-    }
-
-    private static void borrarUsuario(Scanner scanner, HashMap<Integer, Usuario> bibliotecaUsuarios) {
-        System.out.println("\nBorrar informaci�n de usuario:");
-        System.out.print("Ingrese el n�mero de carnet del usuario a borrar: ");
-        int numeroCarnet = scanner.nextInt();
-        scanner.nextLine(); 
-
-        if (bibliotecaUsuarios.containsKey(numeroCarnet)) {
-            bibliotecaUsuarios.remove(numeroCarnet);
-            System.out.println("Usuario borrado correctamente.");
         } else {
             System.out.println("Usuario no encontrado.");
         }
