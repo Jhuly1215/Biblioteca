@@ -10,3 +10,9 @@ Fecha prestamo: 11/12/2021
 Fecha devolucion: 15/12/2021
 Estado: Pendiente
 ------------------------------
+CI: 101010
+Codigo Libro: N0004
+Fecha prestamo: 11/12/2020
+Fecha devolucion: 11/12/2020
+Estado: Pendiente
+------------------------------

@@ -2,6 +2,7 @@ package ventanas;
 
 import java.awt.EventQueue;
 
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -15,6 +16,9 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -121,7 +125,7 @@ public class JFMAgregarPrestamo extends JFrame {
                         JOptionPane.YES_NO_OPTION);
                 if (confirmacion == JOptionPane.YES_OPTION) {
                 	guardarDatosEnArchivo();
-                    JOptionPane.showMessageDialog(null, "Prestamo registrado.");
+                   
                     
                 }
 			}
@@ -211,6 +215,29 @@ public class JFMAgregarPrestamo extends JFrame {
 	        }
 	        return null; // No se encontró el libro
 	    }
+	    private boolean validarFechas(String fechaPrestamo, String fechaDevolucion) {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	        dateFormat.setLenient(false);
+
+	        try {
+	            Date fechaPrestamoDate = dateFormat.parse(fechaPrestamo);
+	            Date fechaDevolucionDate = dateFormat.parse(fechaDevolucion);
+
+	            // Verificar que la fecha de devolución no sea anterior a la de préstamo
+	            if (fechaDevolucionDate.before(fechaPrestamoDate)) {
+	                JOptionPane.showMessageDialog(null, "La fecha de devolución no puede ser anterior a la de préstamo.");
+	                return false;
+	            }
+
+	            // Puedes agregar más validaciones según tus necesidades
+
+	        } catch (ParseException e) {
+	            JOptionPane.showMessageDialog(null, "Formato de fecha incorrecto. Utilice el formato dd/MM/yyyy.");
+	            return false;
+	        }
+
+	        return true;
+	    }
 	private void guardarDatosEnArchivo() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("Prestamos.txt", true))) {
            
@@ -222,7 +249,10 @@ public class JFMAgregarPrestamo extends JFrame {
             
             Usuario usuario = buscarUsuarioPorCI(Integer.parseInt(txCI.getText()));
             Libro libro = buscarLibroPorISBN(txCodigoLibro.getText());
-
+            
+            if (!validarFechas(fechaprestamo, fechadevolucion)) {
+                return; // Si las fechas no son válidas, salir sin guardar
+            }
             if (usuario != null && libro != null) {
             	writer.write("CI: " + ci + "\n");
                 writer.write("Codigo Libro: " + codigoLibro + "\n");
@@ -230,6 +260,8 @@ public class JFMAgregarPrestamo extends JFrame {
                 writer.write("Fecha devolucion: " + fechadevolucion + "\n");
                 writer.write("Estado: " + estado + "\n");
                 writer.write("------------------------------\n");
+                
+                JOptionPane.showMessageDialog(null, "Prestamo registrado.");
                 limpiarCampos();
             } else {
                 JOptionPane.showMessageDialog(null, "Usuario o libro no registrado. No se puede realizar el préstamo.");
