@@ -32,10 +32,9 @@ public class JFMAgregarPrestamo extends JFrame {
 	private JTextField txCodigoLibro;
 	private JTextField txFechaprestamo;
 	private JTextField txFechadevolucion;
-
-	/**
-	 * Launch the application.
-	 */
+	private List<Usuario> usuariosRegistrados;
+    private List<Libro> librosRegistrados;
+    
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -61,6 +60,9 @@ public class JFMAgregarPrestamo extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		usuariosRegistrados = obtenerListaUsuariosDesdeArchivo("Usuarios.txt");
+        librosRegistrados = obtenerListaLibrosDesdeArchivo("LibrosGuardados.txt");
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setLayout(null);
@@ -139,22 +141,99 @@ public class JFMAgregarPrestamo extends JFrame {
 		btnNewButton.setBounds(829, 592, 89, 23);
 		contentPane.add(btnNewButton);
 	}
+	// Método para cargar usuarios desde el archivo
+	private List<Usuario> obtenerListaUsuariosDesdeArchivo(String nombreArchivo) {
+        List<Usuario> listaUsuario = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(nombreArchivo))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                if (linea.startsWith("CI: ")) {
+                    int ci = Integer.parseInt(extraerValor(linea, "CI: "));
+                    String nombre = extraerValor(reader.readLine(), "Nombre: ");
+                    int celular = Integer.parseInt(extraerValor(reader.readLine(), "Celular: "));
+
+                    Usuario usuario = new Usuario(ci, nombre, celular);
+                    listaUsuario.add(usuario);
+
+                    reader.readLine(); // Leer la línea de separación
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return listaUsuario;
+    }
+	 private String extraerValor(String linea, String etiqueta) {
+	        return linea.substring(etiqueta.length()).trim();
+	    }
+
+    // Método para cargar libros desde el archivo
+	 private List<Libro> obtenerListaLibrosDesdeArchivo(String nombreArchivo) {
+	        List<Libro> listaLibros = new ArrayList<>();
+	        try (BufferedReader reader = new BufferedReader(new FileReader(nombreArchivo))) {
+	            String linea;
+	            while ((linea = reader.readLine()) != null) {
+	            
+	                String isbn = extraerValor(linea, "ISBN:");
+	                String titulo = extraerValor(reader.readLine(), "Título:");
+	                String autor = extraerValor(reader.readLine(), "Autor:");
+	                String genero = extraerValor(reader.readLine(), "Género:");
+	                int anioPublicacion = Integer.parseInt(extraerValor(reader.readLine(), "Año de Publicación:"));
+	                int cantidad = Integer.parseInt(extraerValor(reader.readLine(), "Cantidad:"));
+	                String rutaImagen = extraerValor(reader.readLine(), "Ruta de la Imagen:");
+
+	                Libro libro = new Libro(isbn, titulo, autor, genero, anioPublicacion, cantidad, rutaImagen);
+	                listaLibros.add(libro);
+	                reader.readLine();
+	            }
+	            
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	        return listaLibros;
+	    }
+	// Método para buscar un usuario por CI
+	    private Usuario buscarUsuarioPorCI(int ci) {
+	        for (Usuario usuario : usuariosRegistrados) {
+	            if (usuario.getCI() == ci) {
+	                return usuario;
+	            }
+	        }
+	        return null; // No se encontró el usuario
+	    }
+
+	    // Método para buscar un libro por código
+	    private Libro buscarLibroPorISBN(String codigoLibro) {
+	        for (Libro libro : librosRegistrados) {
+	            if (libro.getIsbn().equals(codigoLibro)) {
+	                return libro;
+	            }
+	        }
+	        return null; // No se encontró el libro
+	    }
 	private void guardarDatosEnArchivo() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("Prestamos.txt", true))) {
            
             int ci = Integer.parseInt(txCI.getText());
-            int codigoLibro = Integer.parseInt(txCodigoLibro.getText());
+            String codigoLibro = txCodigoLibro.getText();
             String fechaprestamo = txFechaprestamo.getText();
             String fechadevolucion = txFechadevolucion.getText();
             String estado= "Pendiente";
             
-            writer.write("CI: " + ci + "\n");
-            writer.write("Codigo Libro: " + codigoLibro + "\n");
-            writer.write("Fecha prestamo: " + fechaprestamo + "\n");
-            writer.write("Fecha devolucion: " + fechadevolucion + "\n");
-            writer.write("Estado: " + estado + "\n");
-            writer.write("------------------------------\n");
-            limpiarCampos();
+            Usuario usuario = buscarUsuarioPorCI(Integer.parseInt(txCI.getText()));
+            Libro libro = buscarLibroPorISBN(txCodigoLibro.getText());
+
+            if (usuario != null && libro != null) {
+            	writer.write("CI: " + ci + "\n");
+                writer.write("Codigo Libro: " + codigoLibro + "\n");
+                writer.write("Fecha prestamo: " + fechaprestamo + "\n");
+                writer.write("Fecha devolucion: " + fechadevolucion + "\n");
+                writer.write("Estado: " + estado + "\n");
+                writer.write("------------------------------\n");
+                limpiarCampos();
+            } else {
+                JOptionPane.showMessageDialog(null, "Usuario o libro no registrado. No se puede realizar el préstamo.");
+            }
 
         } catch (IOException e) {
             e.printStackTrace();

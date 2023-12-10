@@ -1,12 +1,12 @@
-CI: 879879
-Nombre: 888
-Fecha prestamo: 12/02/2003
-Fecha devolucion: 01/05/2001
+CI: 111
+Codigo Libro: N0004
+Fecha prestamo: 12/12/2023
+Fecha devolucion: 14/12/2023
 Estado: Pendiente
 ------------------------------
-CI: 111
-Nombre: 123
-Fecha prestamo: 11/05/2003
-Fecha devolucion: 01/02/2012
+CI: 101010
+Codigo Libro: N0004
+Fecha prestamo: 11/12/2021
+Fecha devolucion: 15/12/2021
 Estado: Pendiente
 ------------------------------
