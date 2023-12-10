@@ -1,3 +1,4 @@
+
 package ventanas;
 
 import javax.swing.*;
@@ -122,28 +123,32 @@ public class JFMUsuarios extends JFrame {
         btnBuscar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String valorBusqueda = txBusqueda.getText().trim();
-                List<Usuario> resultados = new ArrayList<>();
+                List<Usuario> resultados = new ArrayList<>();     
+                if (ubiblioteca == null) {
+                    // Si ubiblioteca no está inicializado
+                    JOptionPane.showMessageDialog(null, "La biblioteca de usuarios no está inicializada.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
                 if (valorBusqueda.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Ingrese un término de búsqueda.", "Aviso", JOptionPane.WARNING_MESSAGE);
-                }
-                else if (rdbtnCI.isSelected() || rdbtnNombre.isSelected() ){
-                	DefaultTableModel modeloFiltrado=new DefaultTableModel(new String[] {"CI", "Nombre", "Celular", "Libros Pendientes", "Multas pendientes" },0);
-                	if (rdbtnCI.isSelected()) {
-                		int cii = Integer.parseInt(valorBusqueda);
-                        resultados.addAll(ubiblioteca.buscarPorCI(cii));
-                        //DefaultTableModel filtrado=new DefaultTableModel(new Object[] {resultados.get(0),resultados.get(1),resultados.get(2),resultados.get(3),resultados.get(4)});
-                        
+                } else if (rdbtnCI.isSelected() || rdbtnNombre.isSelected()) {
+                    if (rdbtnCI.isSelected()) {
+                        try {
+                            int ci = Integer.parseInt(valorBusqueda);
+                            resultados.addAll(ubiblioteca.buscarPorCI(ci));
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(null, "Ingrese un número de CI válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
                     if (rdbtnNombre.isSelected()) {
                         resultados.addAll(ubiblioteca.buscarPorNombre(valorBusqueda));
                     }
-                   
-                    
-                    		
+
+                    cargarDatosTabla(resultados);
                 } else {
-                   JOptionPane.showMessageDialog(null, "Seleccionar criterio a buscar.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Seleccionar criterio a buscar.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                 }
-                
             }
         });
         btnBuscar.setBounds(51, 89, 105, 36);
@@ -249,6 +254,21 @@ public class JFMUsuarios extends JFrame {
             e.printStackTrace();
         }
         return listaUsuario;
+    }
+    private void cargarDatosTabla(List<Usuario> listaUsuarios) {
+        DefaultTableModel modelo = (DefaultTableModel) tableUsuario.getModel();
+        modelo.setRowCount(0); // Limpiar la tabla antes de cargar nuevos datos
+
+        for (Usuario usuario : listaUsuarios) {
+            Object[] fila = new Object[modelo.getColumnCount()];
+            fila[0] = usuario.getCI(); // CI
+            fila[1] = usuario.getNombre(); // Nombre
+            fila[2] = usuario.getCelular(); // Celular
+            fila[3] = ""; // Libros Pendientes (no hay información en el archivo)
+            fila[4] = ""; // Multas pendientes (no hay información en el archivo)
+
+            modelo.addRow(fila);
+        }
     }
 
     public static void main(String[] args) {
