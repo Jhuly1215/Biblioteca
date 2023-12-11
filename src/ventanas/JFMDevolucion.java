@@ -10,6 +10,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
+import java.util.List;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 public class JFMDevolucion extends JFrame {
     private JTable tablePrestamo;
@@ -54,15 +56,18 @@ public class JFMDevolucion extends JFrame {
         btnActualizar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int filaSeleccionada = tablePrestamo.getSelectedRow();
+                int row = tablePrestamo.getSelectedRow(); // Obtener la fila actualmente seleccionada
+                String isbn = (String) tablePrestamo.getValueAt(row, 2); 
                 DefaultTableModel model = (DefaultTableModel) tablePrestamo.getModel();
                 if (filaSeleccionada >= 0 && Objects.equals((String) model.getValueAt(filaSeleccionada, 4), "Sin devolver")) {
-
+                	
                     LocalDate obtenerFecha = LocalDate.now();
                     DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                     String fechaActual = obtenerFecha.format(formato);
                     model.setValueAt("Devuelto", filaSeleccionada, 3);
                     model.setValueAt(fechaActual, filaSeleccionada, 4);
                     actualizarPrestamo("Prestamos.txt","Devuelto",filaSeleccionada+1);
+                    actualizarCantidadLibro(isbn); // Llamar al método para aumentar la cantidad de libros
                 } else {
                     JOptionPane.showInternalConfirmDialog(null, "Selecciona un prestamo para actualizar", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -123,6 +128,37 @@ public class JFMDevolucion extends JFrame {
 
         cargarDatosDesdeArchivo("Prestamos.txt");
     }
+    private void actualizarCantidadLibro(String codigoLibro) {
+        try {
+            List<String> lines = new ArrayList<>();
+            BufferedReader reader = new BufferedReader(new FileReader("LibrosGuardados.txt"));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+            reader.close();
+
+            for (int i = 0; i < lines.size(); i++) {
+                if (lines.get(i).startsWith("ISBN: " + codigoLibro)) {
+                    int cantidadIndex = i + 5; // La línea siguiente a 'ISBN' es la cantidad
+                    int cantidad = Integer.parseInt(lines.get(cantidadIndex).substring(10)); // Obtener la cantidad actual
+                    cantidad++; // Aumentar la cantidad
+                    lines.set(cantidadIndex, "Cantidad: " + cantidad); // Actualizar la cantidad en la lista
+                    break;
+                }
+            }
+
+            BufferedWriter writer = new BufferedWriter(new FileWriter("LibrosGuardados.txt"));
+            for (String writeLine : lines) {
+                writer.write(writeLine + System.getProperty("line.separator"));
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }	
+
+
     private void actualizarPrestamo(String rutaArchivo,  String nuevoTexto, int numeroDeLinea) {
         File archivo = new File(rutaArchivo);
         StringBuilder contenido = new StringBuilder();
