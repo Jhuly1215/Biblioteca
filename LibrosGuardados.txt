@@ -43,16 +43,8 @@ Título: Frankenstein
 Autor: Mary Shelley
 Género: Novela
 Año de Publicación: 1818
-Cantidad: 8
+Cantidad: 7
 Ruta de la Imagen: C:\Users\DELL\Downloads\imagenes libro subir\Frankestein.jpg
-------------------------------
-ISBN: N0003
-Título: El Retrato de Dorian Gray
-Autor: Oscar Wilde
-Género: Novela
-Año de Publicación: 1890
-Cantidad: 5
-Ruta de la Imagen: C:\Users\DELL\Downloads\imagenes libro subir\ElRetratodeDorianGray.jpg
 ------------------------------
 ISBN: N0001
 Título: Orgullo y Prejuicio
@@ -61,4 +53,12 @@ Género: Novela
 Año de Publicación: 1813
 Cantidad: 8
 Ruta de la Imagen: C:\Users\DELL\Downloads\Orgullo y prejuicio(250x250).jpg
+------------------------------
+ISBN: N0003
+Título: El Retrato de Dorian Gray
+Autor: Oscar Wilde
+Género: Biografía
+Año de Publicación: 1890
+Cantidad: 10
+Ruta de la Imagen: C:\Users\DELL\Downloads\imagenes libro subir\ElRetratodeDorianGray.jpg
 ------------------------------
