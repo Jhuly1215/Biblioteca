@@ -34,14 +34,14 @@ public class JFMReservasRegistrar extends JFrame {
     private List<Usuario> usuariosRegistrados;
     private List<Libro> librosRegistrados;
 
-    
+
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                	
-                	JFMReservasRegistrar frame = new JFMReservasRegistrar();
-                	frame.setVisible(true);
+
+                    JFMReservasRegistrar frame = new JFMReservasRegistrar();
+                    frame.setVisible(true);
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -54,7 +54,7 @@ public class JFMReservasRegistrar extends JFrame {
      * Create the frame.
      */
     public JFMReservasRegistrar() {
-    	
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1000, 700);
         contentPane = new JPanel();
@@ -233,7 +233,7 @@ public class JFMReservasRegistrar extends JFrame {
         }
         return id;
     }
-    
+
     private void guardarDatosEnArchivo() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("Reservas.txt", true))) {
             int prId = obtenerId("Reservas.txt");
@@ -248,8 +248,8 @@ public class JFMReservasRegistrar extends JFrame {
                 return; // Si las fechas no son válidas, salir sin guardar
             }
             if (usuario != null && libro != null) {
-            	Reserva reserva = new Reserva(prId, usuario, libro, fechareserva);
-                
+                Reserva reserva = new Reserva(prId, usuario, libro, fechareserva);
+
                 writer.write("PrID: " + prId + "\n");
                 writer.write("CI: " + ci + "\n");
                 writer.write("Codigo Libro: " + codigoLibro + "\n");
@@ -266,7 +266,7 @@ public class JFMReservasRegistrar extends JFrame {
             e.printStackTrace();
         }
     }
-    
+
     private void limpiarCampos() {
         txCI.setText("");
         txCodigoLibro.setText("");

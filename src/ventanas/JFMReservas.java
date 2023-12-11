@@ -11,10 +11,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
 
 import javax.swing.JOptionPane;
 public class JFMReservas extends JFrame {
@@ -22,12 +20,12 @@ public class JFMReservas extends JFrame {
     private LinkedList<Reserva> listaReservas;
     private List<Usuario> usuariosRegistrados;
     private List<Libro> librosRegistrados;
-    
-    
+
+
     public JFMReservas() {
-    	usuariosRegistrados = obtenerListaUsuariosDesdeArchivo("Usuarios.txt");
+        usuariosRegistrados = obtenerListaUsuariosDesdeArchivo("Usuarios.txt");
         librosRegistrados = obtenerListaLibrosDesdeArchivo("LibrosGuardados.txt");
-        
+
         getContentPane().setBackground(new Color(62, 95, 138));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 1000, 700);
@@ -42,12 +40,12 @@ public class JFMReservas extends JFrame {
         //tableReservas.setEnabled(false);
         tableReservas.setRowSelectionAllowed(true);
         tableReservas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        
+
         tableReservas.setModel(new DefaultTableModel(
                 new Object[][] {
                 },
                 new String[] {
-                        "Cod Reserva","Usuario", "Libro", "Fecha de reserva"
+                        "Codigo Reserva","Usuario CI", "Libro ISBN", "Fecha de reserva"
                 }
         ));
         scrollPane.setViewportView(tableReservas);
@@ -82,9 +80,10 @@ public class JFMReservas extends JFrame {
 
                     if (confirmacion == JOptionPane.YES_OPTION) {
                         // Obtener el PrID de la fila seleccionada
-                        int prId = (int) tableReservas.getValueAt(filaSeleccionada, 0);
+                        String prId = (String) tableReservas.getValueAt(filaSeleccionada, 0);
 
                         // Llamar al método eliminarReserva
+                        System.out.println(prId);
                         eliminarReserva(prId);
 
                         // Actualizar la visualización de la tabla
@@ -113,13 +112,35 @@ public class JFMReservas extends JFrame {
         });
         btnAtras.setBounds(860, 610, 89, 23);
         getContentPane().add(btnAtras);
-        
+
         cargarReservasDesdeArchivo("Reservas.txt");
     }
-    private void eliminarReserva(int prId) {
+    private void eliminarReserva(String prId) {
         // Obtener la lista de reservas actual
-        List<Reserva> listaReservas = obtenerListaReservasDesdeArchivo("Reservas.txt");
 
+        LinkedList<String[]> lista = new LinkedList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader("Reservas.txt"))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                // Procesar cada línea del archivo para obtener los datos
+                String idStr = extraerValor(linea, "PrID: ");
+                String ciStr = extraerValor(reader.readLine(), "CI: ");
+                String isbnStr = extraerValor(reader.readLine(), "Codigo Libro: ");
+                String fechaPrestamo = extraerValor(reader.readLine(), "Fecha reserva: ");
+                String[] fila = new String[]{idStr, ciStr, isbnStr, fechaPrestamo};
+                reader.readLine(); // Leer la línea de separación
+
+                if(!Objects.equals(prId, idStr)){
+                    lista.add(fila);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        /*
+        List<Reserva> listaReservas = obtenerListaReservasDesdeArchivo("Reservas.txt");
         // Buscar la reserva con el ID proporcionado
         Optional<Reserva> reservaAEliminar = listaReservas.stream()
                 .filter(reserva -> reserva.getCodigoReserva() == prId)
@@ -127,19 +148,21 @@ public class JFMReservas extends JFrame {
 
         // Si se encuentra la reserva, eliminarla de la lista
         reservaAEliminar.ifPresent(reserva -> listaReservas.remove(reserva));
-
+        */
         // Guardar la lista actualizada en el archivo
-        guardarListaReservasEnArchivo(listaReservas, "Reservas.txt");
+        guardarListaReservasEnArchivo(lista);
+
     }
 
-    private void guardarListaReservasEnArchivo(List<Reserva> listaReservas, String nombreArchivo) {
+    private void guardarListaReservasEnArchivo(LinkedList<String[]> listaReservas) {
         // Guardar la lista de reservas en el archivo
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo))) {
-            for (Reserva reserva : listaReservas) {
-                writer.write("PrID: " + reserva.getCodigoReserva() + "\n");
-                writer.write("CI: " + reserva.getUsuario().getCI() + "\n");
-                writer.write("Codigo Libro: " + reserva.getLibro().getIsbn() + "\n");
-                writer.write("Fecha reserva: " + reserva.getFechaReserva() + "\n");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Reservas.txt"))) {
+            while (!listaReservas.isEmpty()) {
+                String[] fila = listaReservas.poll();
+                writer.write("PrID: " + fila[0] + "\n");
+                writer.write("CI: " + fila[1] + "\n");
+                writer.write("Codigo Libro: " + fila[2] + "\n");
+                writer.write("Fecha reserva: " + fila[3] + "\n");
                 writer.write("------------------------------\n");
             }
         } catch (IOException e) {
@@ -148,24 +171,33 @@ public class JFMReservas extends JFrame {
     }
 
     private String extraerValor(String linea, String etiqueta) {
-        return linea.substring(etiqueta.length()).trim();
+        if (linea.startsWith(etiqueta)) {
+            return linea.substring(etiqueta.length()).trim();
+        } else {
+            return "";
+        }
     }
     private void cargarReservasDesdeArchivo(String nombreArchivo) {
-        listaReservas = obtenerListaReservasDesdeArchivo(nombreArchivo);
-
         DefaultTableModel modelo = (DefaultTableModel) tableReservas.getModel();
         modelo.setRowCount(0); // Limpiar la tabla antes de cargar nuevos datos
 
-        for (Reserva reserva : listaReservas) {
-            Object[] fila = new Object[modelo.getColumnCount()];
-            fila[0]=reserva.getCodigoReserva();
-            fila[1] = reserva.getUsuario(); // CI
-            fila[2] = reserva.getLibro(); // Nombre
-            fila[3] = reserva.getFechaReserva(); // Celular
-         
+        try (BufferedReader reader = new BufferedReader(new FileReader(nombreArchivo))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                // Procesar cada línea del archivo para obtener los datos
+                String idStr = extraerValor(linea, "PrID: ");
+                String ciStr = extraerValor(reader.readLine(), "CI: ");
+                String isbnStr = extraerValor(reader.readLine(), "Codigo Libro: ");
+                String fechaPrestamo = extraerValor(reader.readLine(), "Fecha reserva: ");
 
-            modelo.addRow(fila);
+                modelo.addRow(new Object[]{idStr, ciStr, isbnStr, fechaPrestamo});
+
+                reader.readLine(); // Leer la línea de separación
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
     }
     private LinkedList<Reserva> obtenerListaReservasDesdeArchivo(String nombreArchivo) {
         LinkedList<Reserva> listaReservas = new LinkedList<>();
@@ -212,7 +244,7 @@ public class JFMReservas extends JFrame {
         }
         return null; // No se encontró el libro
     }
-    
+
     private List<Usuario> obtenerListaUsuariosDesdeArchivo(String nombreArchivo) {
         List<Usuario> listaUsuario = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(nombreArchivo))) {
