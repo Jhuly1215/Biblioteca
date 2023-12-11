@@ -6,10 +6,6 @@ CI: 101010
 Nombre: Nombre 1
 Celular: 11111
 ------------------------------
-CI: 444444
-Nombre: nombre4
-Celular: 2344
-------------------------------
 CI: 789
 Nombre: aalske
 Celular: 123
