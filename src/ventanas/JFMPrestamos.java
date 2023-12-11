@@ -33,7 +33,8 @@ public class JFMPrestamos extends JFrame {
         getContentPane().add(scrollPane);
 
         tablePrestamo = new JTable();
-        tablePrestamo.setEnabled(false);
+        tablePrestamo.setEnabled(true);
+        tablePrestamo.setRowSelectionAllowed(true);
         tablePrestamo.setModel(new DefaultTableModel(
                 new Object[][] {
                 },
@@ -48,28 +49,48 @@ public class JFMPrestamos extends JFrame {
         lblPrestamo.setFont(new Font("Tahoma", Font.BOLD, 20));
         getContentPane().add(lblPrestamo);
 
-        JButton btnEditar = new JButton("Editar");
-        btnEditar.setBounds(247, 581, 150, 23);
-        btnEditar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                boolean editable = !tablePrestamo.isEditing();
-                tablePrestamo.setEnabled(editable);
-            }
-        });
-        getContentPane().add(btnEditar);
 
         JButton btnEliminar = new JButton("Eliminar");
         btnEliminar.setBounds(637, 581, 150, 23);
         btnEliminar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                int filaSeleccionada = tablePrestamo.getSelectedRow();
+        	public void actionPerformed(ActionEvent e) {
+        		int filaSeleccionada = tablePrestamo.getSelectedRow();
                 if (filaSeleccionada >= 0) {
-                    DefaultTableModel model = (DefaultTableModel) tablePrestamo.getModel();
-                    model.removeRow(filaSeleccionada);
+                	int row = tablePrestamo.getSelectedRow(); // Obtener la fila actualmente seleccionada
+                    int confirmacion = JOptionPane.showConfirmDialog(null, "¿Eliminar el préstamo?", "Confirmación", JOptionPane.YES_NO_OPTION);
+                    if (confirmacion == JOptionPane.YES_OPTION) {
+                    	String isbn = (String) tablePrestamo.getValueAt(row, 2); // Obtener el ISBN de la fila seleccionada
+                    	DefaultTableModel model = (DefaultTableModel) tablePrestamo.getModel();
+                        model.removeRow(filaSeleccionada);
+                    	try {
+    	                    // Obtener el contenido del archivo
+    	                    List<String> lines = new ArrayList<>();
+    	                    BufferedReader reader = new BufferedReader(new FileReader("Prestamos.txt"));
+    	                    String line;
+    	                    while ((line = reader.readLine()) != null) {
+    	                        lines.add(line);
+    	                    }
+    	                    reader.close();
+    	                    
+    	                    // Eliminar la línea correspondiente al registro
+    	                    int lineToRemove = row * 7; // Cada registro ocupa 5 líneas
+    	                    lines.subList(lineToRemove, lineToRemove + 7).clear();
+    	                    
+    	                    // Escribir de nuevo al archivo
+    	                    BufferedWriter writer = new BufferedWriter(new FileWriter("Prestamos.txt"));
+    	                    for (String writeLine : lines) {
+    	                        writer.write(writeLine + System.getProperty("line.separator"));
+    	                    }
+    	                    writer.close();
+    	                } catch (IOException ex) {
+    	                    ex.printStackTrace();
+    	                }
+                    	actualizarCantidadLibro(isbn); // Llamar al método para aumentar la cantidad de libros
+                    }
                 } else {
-                    JOptionPane.showInternalConfirmDialog(null, "Selecciona una fila para eliminar", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Selecciona una fila para eliminar", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            }
+        	}
         });
         getContentPane().add(btnEliminar);
 
@@ -98,6 +119,35 @@ public class JFMPrestamos extends JFrame {
         cargarDatosDesdeArchivo("Prestamos.txt");
 
     }
+    private void actualizarCantidadLibro(String codigoLibro) {
+        try {
+            List<String> lines = new ArrayList<>();
+            BufferedReader reader = new BufferedReader(new FileReader("LibrosGuardados.txt"));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+            reader.close();
+
+            for (int i = 0; i < lines.size(); i++) {
+                if (lines.get(i).startsWith("ISBN: " + codigoLibro)) {
+                    int cantidadIndex = i + 5; // La línea siguiente a 'ISBN' es la cantidad
+                    int cantidad = Integer.parseInt(lines.get(cantidadIndex).substring(10)); // Obtener la cantidad actual
+                    cantidad++; // Aumentar la cantidad
+                    lines.set(cantidadIndex, "Cantidad: " + cantidad); // Actualizar la cantidad en la lista
+                    break;
+                }
+            }
+
+            BufferedWriter writer = new BufferedWriter(new FileWriter("LibrosGuardados.txt"));
+            for (String writeLine : lines) {
+                writer.write(writeLine + System.getProperty("line.separator"));
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }	
     private void cargarDatosDesdeArchivo(String nombreArchivo) {
         DefaultTableModel modelo = (DefaultTableModel) tablePrestamo.getModel();
         modelo.setRowCount(0); // Limpiar la tabla antes de cargar nuevos datos
