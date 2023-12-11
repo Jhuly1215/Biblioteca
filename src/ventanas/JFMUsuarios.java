@@ -360,8 +360,8 @@ public class JFMUsuarios extends JFrame {
             fila[0] = usuario.getCI(); // CI
             fila[1] = usuario.getNombre(); // Nombre
             fila[2] = usuario.getCelular(); // Celular
-            fila[3] = usuario.isLibroPrestado() ? "Sí" : "No";
-            fila[4] = usuario.isMultaPendiente() ? "Sí" : "No";
+            fila[3] = obtenerLibros("Prestamos.txt", usuario.getCI());
+            fila[4] = obtenerMultas("Prestamos.txt", String.valueOf(usuario.getCI()));
 
             modelo.addRow(fila);
         }

@@ -42,16 +42,6 @@ public class JFMDevolucion extends JFrame {
         lblPrestamo.setBounds(51, 64, 184, 14);
         getContentPane().add(lblPrestamo);
 
-        JButton btnAgregar = new JButton("Agregar devolucion");
-        btnAgregar.setBounds(60, 581, 150, 23);
-        getContentPane().add(btnAgregar);
-        btnAgregar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                agregarFila();
-            }
-        });
         JButton btnActualizar = new JButton("Actualizar");
         btnActualizar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -273,11 +263,6 @@ public class JFMDevolucion extends JFrame {
             else return 0 + " Bs.";
         }
 
-    }
-
-    private void agregarFila() {
-        /*DefaultTableModel model = (DefaultTableModel) tablePrestamo.getModel();
-        model.addRow(new Object[]{"Nuevo CI", "Nuevo ISBM", "Nuevo Estado", "Nueva Fecha prestada", "Nueva Fecha devolucion", "Nueva Multa"});*/
     }
 
     public static void main(String[] args) {

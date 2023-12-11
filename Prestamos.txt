@@ -1,88 +1,48 @@
 PrID: 1
-CI: 111
+CI: 101010
 Codigo Libro: N0004
-Fecha prestamo: 12/12/2023
-Fecha devolucion: 14/12/2023
-Estado: Devuelto
-Fecha devuelto: 10/12/2023
+Fecha prestamo: 10/12/2023
+Fecha devolucion: 15/12/2023
+Estado: Pendiente
+Fecha devuelto: Sin devolver
 ------------------------------
 PrID: 2
-CI: 101010
-Codigo Libro: N0004
-Fecha prestamo: 11/12/2021
-Fecha devolucion: 15/12/2021
-Estado: Devuelto
-Fecha devuelto: 13/12/2021
-------------------------------
-PrID: 3
-CI: 101010
-Codigo Libro: N0004
-Fecha prestamo: 11/12/2020
-Fecha devolucion: 15/12/2020
-Estado: Devuelto
-Fecha devuelto: 16/12/2020
-------------------------------
-PrID: 4
-CI: 101010
-Codigo Libro: N0004
-Fecha prestamo: 12/12/2023
-Fecha devolucion: 15/12/2023
-Estado: Devuelto
-Fecha devuelto: 10/12/2023
-------------------------------
-PrID: 5
-CI: 101010
-Codigo Libro: N0004
-Fecha prestamo: 12/12/2023
-Fecha devolucion: 15/12/2023
-Estado: Devuelto
-Fecha devuelto: 10/12/2023
-------------------------------
-PrID: 6
-CI: 101010
-Codigo Libro: N0004
-Fecha prestamo: 12/12/2023
-Fecha devolucion: 14/12/2023
-Estado: Devuelto
-Fecha devuelto: 10/12/2023
-------------------------------
-PrID: 7
-CI: 101010
-Codigo Libro: N0004
-Fecha prestamo: 10/12/2023
-Fecha devolucion: 15/12/2023
-Estado: Pendiente
-Fecha devuelto: Sin devolver
-------------------------------
-PrID: 8
-CI: 4567
-Codigo Libro: N0003
-Fecha prestamo: 10/12/2023
-Fecha devolucion: 25/12/2023
-Estado: Pendiente
-Fecha devuelto: Sin devolver
-------------------------------
-PrID: 9
 CI: 4567
 Codigo Libro: N0004
 Fecha prestamo: 20/11/2023
 Fecha devolucion: 30/11/2023
-Estado: Pendiente
-Fecha devuelto: Sin devolver
-------------------------------
-PrID: 10
-CI: 4567
-Codigo Libro: N0004
-Fecha prestamo: 20/11/2023
-Fecha devolucion: 28/11/2023
 Estado: Devuelto
-Fecha devuelto: 30/11/2023
+Fecha devuelto: 10/12/2023
 ------------------------------
-PrID: 11
-CI: 101010
-Codigo Libro: N0004
-Fecha prestamo: 20/11/2023
-Fecha devolucion: 30/12/2023
+PrID: 3
+CI: 1234
+Codigo Libro: N0001
+Fecha prestamo: 12/11/2003
+Fecha devolucion: 14/11/2003
 Estado: Pendiente
 Fecha devuelto: Sin devolver
+------------------------------
+PrID: 4
+CI: 8000
+Codigo Libro: B0002
+Fecha prestamo: 17/03/2000
+Fecha devolucion: 19/04/2000
+Estado: Pendiente
+Fecha devuelto: Sin devolver
+------------------------------
+PrID: 5
+CI: 1234
+Codigo Libro: N0002
+Fecha prestamo: 14/02/2015
+Fecha devolucion: 15/02/2015
+Estado: Devuelto
+Fecha devuelto: 10/12/2023
+------------------------------
+PrID: 6
+CI: 9999
+Codigo Libro: AC0001
+Fecha prestamo: 09/12/2023
+Fecha devolucion: 09/12/2023
+Estado: Devuelto
+Fecha devuelto: 10/12/2023
 ------------------------------
