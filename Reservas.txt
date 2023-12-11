@@ -1,0 +1,20 @@
+PrID: 13
+CI: 4567
+Codigo Libro: N0001
+Fecha reserva: 15/10/2023
+------------------------------
+PrID: 14
+CI: 4567
+Codigo Libro: B0001
+Fecha reserva: 11/12/2003
+------------------------------
+PrID: 15
+CI: 101010
+Codigo Libro: N0003
+Fecha reserva: 11/11/2003
+------------------------------
+PrID: 16
+CI: 4567
+Codigo Libro: B0002
+Fecha reserva: 13/11/2000
+------------------------------
