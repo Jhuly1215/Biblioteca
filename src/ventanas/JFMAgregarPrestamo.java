@@ -124,9 +124,13 @@ public class JFMAgregarPrestamo extends JFrame {
                 int confirmacion = JOptionPane.showConfirmDialog(null, "¿Está seguro de registrar este préstamo?", "Confirmación de registro",
                         JOptionPane.YES_NO_OPTION);
                 if (confirmacion == JOptionPane.YES_OPTION) {
-                    guardarDatosEnArchivo();
-
-
+                	Libro libro = buscarLibroPorISBN(txCodigoLibro.getText());
+                    if (libro != null && libro.getCantidad() == 0) {
+                            JOptionPane.showMessageDialog(null, "No hay existencias disponibles del libro para prestar.");
+                            limpiarCampos();
+                        }else {
+                	guardarDatosEnArchivo();
+                        }
                 }
             }
         });
@@ -277,7 +281,9 @@ public class JFMAgregarPrestamo extends JFrame {
                 writer.write("Estado: " + estado + "\n");
                 writer.write("Fecha devuelto: Sin devolver\n");
                 writer.write("------------------------------\n");
-
+                
+                actualizarCantidadLibro(codigoLibro); 
+                
                 JOptionPane.showMessageDialog(null, "Prestamo registrado.");
                 limpiarCampos();
             } else {
@@ -288,6 +294,36 @@ public class JFMAgregarPrestamo extends JFrame {
             e.printStackTrace();
         }
     }
+    private void actualizarCantidadLibro(String codigoLibro) {
+        try {
+            List<String> lines = new ArrayList<>();
+            BufferedReader reader = new BufferedReader(new FileReader("LibrosGuardados.txt"));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+            reader.close();
+
+            for (int i = 0; i < lines.size(); i++) {
+                if (lines.get(i).startsWith("ISBN: " + codigoLibro)) {
+                    int cantidadIndex = i + 5; // La línea siguiente a 'ISBN' es la cantidad
+                    int cantidad = Integer.parseInt(lines.get(cantidadIndex).substring(10)); // Obtener la cantidad actual
+                    cantidad--; // Reducir la cantidad
+                    lines.set(cantidadIndex, "Cantidad: " + cantidad); // Actualizar la cantidad en la lista
+                    break;
+                }
+            }
+
+            BufferedWriter writer = new BufferedWriter(new FileWriter("LibrosGuardados.txt"));
+            for (String writeLine : lines) {
+                writer.write(writeLine + System.getProperty("line.separator"));
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }	
+
     private void limpiarCampos() {
         txCI.setText("");
         txCodigoLibro.setText("");
