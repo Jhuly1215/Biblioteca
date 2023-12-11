@@ -15,118 +15,118 @@ import java.util.List;
 import java.util.Optional;
 
 public class JFMLibrosDescripcion extends JFrame {
-	private JTextField textAutor;
-	private JTextField textISBN;
-	private JTextField textTitulo, textGenero;
-	JComboBox cboxGenero;
-	private JTextField textAnioPublicacion;
-	private JTextField textCantidad;
-	JLabel lblFoto;
-	private Libro libroActual;
-	JButton btnGuardar;
+    private JTextField textAutor;
+    private JTextField textISBN;
+    private JTextField textTitulo, textGenero;
+    JComboBox cboxGenero;
+    private JTextField textAnioPublicacion;
+    private JTextField textCantidad;
+    JLabel lblFoto;
+    private Libro libroActual;
+    JButton btnGuardar;
 
     public JFMLibrosDescripcion(Libro libro) {
-    	this.libroActual = libro;
-    	
-    	getContentPane().setBackground(new Color(62, 95, 138));
+        this.libroActual = libro;
+
+        getContentPane().setBackground(new Color(62, 95, 138));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 1000, 700);
         getContentPane().setLayout(null);
-        
+
         //informacion del libro
-        
+
         JPanel panel_1 = new JPanel();
         panel_1.setBackground(new Color(255, 255, 255));
         panel_1.setBounds(143, 50, 730, 549);
         getContentPane().add(panel_1);
         panel_1.setLayout(null);
-        
+
         Font font=new Font("Rockwell", Font.PLAIN, 18);
         JLabel lblTitulo = new JLabel("Titulo");
         lblTitulo.setFont(font);
         lblTitulo.setBounds(343, 77, 46, 14);
         panel_1.add(lblTitulo);
-        
+
         textTitulo = new JTextField();
         textTitulo.setEditable(false);
         textTitulo.setBackground(SystemColor.controlHighlight);
         textTitulo.setColumns(10);
         textTitulo.setBounds(430, 70, 270, 30);
         panel_1.add(textTitulo);
-        
+
         JLabel lblautor = new JLabel("Autor");
         lblautor.setFont(font);
         lblautor.setBounds(343, 128, 46, 14);
         panel_1.add(lblautor);
-        
+
         textAutor = new JTextField();
         textAutor.setEditable(false);
         textAutor.setBackground(SystemColor.controlHighlight);
         textAutor.setBounds(430, 120, 270, 30);
         textAutor.setColumns(10);
         panel_1.add(textAutor);
-        
+
         JLabel lblGenero = new JLabel("Genero");
         lblGenero.setBounds(343, 228, 67, 14);
         lblGenero.setFont(font);
         panel_1.add(lblGenero);
-        
-        
+
+
         cboxGenero = new JComboBox();
         cboxGenero.setFont(new Font("Trebuchet MS", Font.PLAIN, 12));
         cboxGenero.setBounds(430, 226, 140, 22);
-        
+
         cboxGenero.addItem("Biografía");
         cboxGenero.addItem("Novela");
         cboxGenero.addItem("Soneto");
         cboxGenero.addItem("Carta");
         cboxGenero.addItem("Ensayo");
         cboxGenero.addItem("Artículo científico");
-        
+
         textGenero = new JTextField();
         textGenero.setEditable(false);
         textGenero.setBackground(SystemColor.controlHighlight);
         textGenero.setBounds(430, 222, 270, 30);
         textGenero.setColumns(10);
         panel_1.add(textGenero);
-        
-        
+
+
         JLabel lblISBN = new JLabel("ISBN");
         lblISBN.setBounds(343, 178, 46, 14);
         lblISBN.setFont(font);
         panel_1.add(lblISBN);
-        
+
         textISBN = new JTextField();
         textISBN.setEditable(false);
         textISBN.setBackground(SystemColor.controlHighlight);
         textISBN.setBounds(430, 170, 270, 30);
         textISBN.setColumns(10);
         panel_1.add(textISBN);
-        
+
         JLabel lblAnioPublicacion = new JLabel("Año");
         lblAnioPublicacion.setBounds(343, 282, 67, 14);
         lblAnioPublicacion.setFont(font);
         panel_1.add(lblAnioPublicacion);
-        
+
         textAnioPublicacion = new JTextField();
         textAnioPublicacion.setEditable(false);
         textAnioPublicacion.setColumns(10);
         textAnioPublicacion.setBackground(SystemColor.controlHighlight);
         textAnioPublicacion.setBounds(430, 276, 134, 30);
         panel_1.add(textAnioPublicacion);
-        
+
         JLabel lblCantidad = new JLabel("Cantidad");
         lblCantidad.setFont(new Font("Rockwell", Font.PLAIN, 18));
         lblCantidad.setBounds(343, 332, 77, 14);
         panel_1.add(lblCantidad);
-        
+
         textCantidad = new JTextField();
         textCantidad.setEditable(false);
         textCantidad.setColumns(10);
         textCantidad.setBackground(SystemColor.controlHighlight);
         textCantidad.setBounds(430, 331, 134, 30);
         panel_1.add(textCantidad);
-        
+
         textTitulo.setText(libro.getTitulo());
         textAutor.setText(libro.getAutor());
         textISBN.setText(libro.getIsbn());
@@ -134,12 +134,12 @@ public class JFMLibrosDescripcion extends JFrame {
         textCantidad.setText(String.valueOf(libro.getCantidad()));
         textAnioPublicacion.setText(String.valueOf(libro.getAnioPublicacion()));
         //textGenero.setText(libro.getGenero());
-        
+
         lblFoto = new JLabel();
         lblFoto.setBounds(41, 80, 250, 250);
         lblFoto.setIcon(new ImageIcon(libro.getRuta()));
         panel_1.add(lblFoto);
-        
+
         JButton btnAgregarFoto = new JButton("Subir foto");
         btnAgregarFoto.setBounds(202, 338, 89, 23);
         btnAgregarFoto.addActionListener(new ActionListener() {
@@ -163,7 +163,7 @@ public class JFMLibrosDescripcion extends JFrame {
         btnGuardar.setVisible(false); // Inicialmente, el botón es invisible
         btnGuardar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	int confirmacion = JOptionPane.showConfirmDialog(null, "¿Está seguro de guardar los cambios?", "Confirmación de guardado", JOptionPane.YES_NO_OPTION);
+                int confirmacion = JOptionPane.showConfirmDialog(null, "¿Está seguro de guardar los cambios?", "Confirmación de guardado", JOptionPane.YES_NO_OPTION);
                 if (confirmacion == JOptionPane.YES_OPTION) {
                     eliminarLibro(libroActual.getIsbn());
                     guardarDatosEnArchivo();
@@ -183,26 +183,26 @@ public class JFMLibrosDescripcion extends JFrame {
         JButton btnEditar = new JButton("Editar");
         btnEditar.setBounds(41, 483, 186, 55);
         btnEditar.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		
-        		btnGuardar.setVisible(true);
-        		btnEditar.setVisible(false);
-        		panel_1.add(btnAgregarFoto);
-        		textTitulo.setEditable(true);
+            public void actionPerformed(ActionEvent e) {
+
+                btnGuardar.setVisible(true);
+                btnEditar.setVisible(false);
+                panel_1.add(btnAgregarFoto);
+                textTitulo.setEditable(true);
                 textAutor.setEditable(true);
                 textCantidad.setEditable(true);
                 textAnioPublicacion.setEditable(true);
                 textISBN.setEditable(false);
                 textGenero.setVisible(false);
                 remove(textGenero);
-                
-        		btnAgregarFoto.setVisible(true);
-        		panel_1.add(cboxGenero);
-        		cboxGenero.setVisible(true);
-        	}
+
+                btnAgregarFoto.setVisible(true);
+                panel_1.add(cboxGenero);
+                cboxGenero.setVisible(true);
+            }
         });
         panel_1.add(btnEditar);
-        
+
         JButton btnEliminar = new JButton("Eliminar");
         btnEliminar.setBounds(620, 10, 100, 50);
         btnEliminar.addActionListener(new ActionListener() {
@@ -218,19 +218,19 @@ public class JFMLibrosDescripcion extends JFrame {
         });
         panel_1.add(btnEliminar);
 
-        
+
         JLabel lblDescricpcion = new JLabel("Descripción");
         lblDescricpcion.setBounds(100, 22, 147, 14);
         lblDescricpcion.setFont(new Font("Tahoma", Font.BOLD, 16));
-        panel_1.add(lblDescricpcion);       
-              
+        panel_1.add(lblDescricpcion);
+
         JButton btnAtras = new JButton("Atras");
         btnAtras.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		JFMLibros frameLibros = new JFMLibros();
-		        frameLibros.setVisible(true);
+            public void actionPerformed(ActionEvent e) {
+                JFMLibros frameLibros = new JFMLibros();
+                frameLibros.setVisible(true);
                 dispose();
-        	}
+            }
         });
         btnAtras.setBounds(860, 610, 89, 23);
         getContentPane().add(btnAtras);
@@ -297,8 +297,8 @@ public class JFMLibrosDescripcion extends JFrame {
 
                 Libro libro = new Libro(isbn, titulo, autor, genero, anioPublicacion, cantidad, rutaImagen);
                 listaLibros.add(libro);
-    
-                
+
+
                 reader.readLine();
             }
         } catch (IOException e) {
@@ -325,8 +325,8 @@ public class JFMLibrosDescripcion extends JFrame {
         }
     }
     private void limpiarCampos() {
-    	dispose();
-    	JFMLibros frame = new JFMLibros();
+        dispose();
+        JFMLibros frame = new JFMLibros();
         frame.setVisible(true);
         revalidate();
         repaint();

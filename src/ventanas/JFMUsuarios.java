@@ -9,22 +9,26 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class JFMUsuarios extends JFrame {
     private JTable tableUsuario;
     private JTextField txBusqueda;
     private usuarios_biblioteca ubiblioteca;
-    private List<Usuario> listaDeUsuarios;  
+    private List<Usuario> listaDeUsuarios;
     private List<Libro> listaDeLibros;
     public JFMUsuarios() {
         getContentPane().setBackground(new Color(62, 95, 138));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 1000, 700);
         getContentPane().setLayout(null);
-        
+
         listaDeUsuarios = obtenerListaUsuariosDesdeArchivo("Usuarios.txt");
         listaDeLibros = obtenerListaLibrosDesdeArchivo("LibrosGuardados.txt");
         ubiblioteca = new usuarios_biblioteca(listaDeUsuarios, listaDeLibros);
@@ -33,15 +37,15 @@ public class JFMUsuarios extends JFrame {
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(51, 185, 861, 364);
         getContentPane().add(scrollPane);
-        
+
         JRadioButton rdbtnCI = new JRadioButton("CI");
         rdbtnCI.setBounds(51, 147, 109, 23);
         getContentPane().add(rdbtnCI);
-        
+
         JRadioButton rdbtnNombre = new JRadioButton("Nombre");
         rdbtnNombre.setBounds(182, 147, 109, 23);
         getContentPane().add(rdbtnNombre);
-        
+
         ButtonGroup grupoRadioButtons = new ButtonGroup();
         grupoRadioButtons.add(rdbtnCI);
         grupoRadioButtons.add(rdbtnNombre);
@@ -82,7 +86,7 @@ public class JFMUsuarios extends JFrame {
         JButton btnEliminar = new JButton("Eliminar");
         btnEliminar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	int filaSeleccionada = tableUsuario.getSelectedRow();
+                int filaSeleccionada = tableUsuario.getSelectedRow();
                 if (filaSeleccionada >= 0) {
                     int confirmacion = JOptionPane.showConfirmDialog(
                             null,
@@ -93,10 +97,10 @@ public class JFMUsuarios extends JFrame {
                     if (confirmacion == JOptionPane.YES_OPTION) {
                         // Obtener el CI del usuario seleccionado
                         int ciUsuario = (int) tableUsuario.getValueAt(filaSeleccionada, 0);
-                        
+
                         // Llamar al método eliminarUsuario
                         eliminarUsuario(ciUsuario);
-                        
+
                         // Actualizar la visualización de la tabla
                         cargarDatosDesdeArchivo("Usuarios.txt");
                     }
@@ -111,7 +115,7 @@ public class JFMUsuarios extends JFrame {
         });
         btnEliminar.setBounds(236, 572, 150, 45);
         getContentPane().add(btnEliminar);
-        
+
         tableUsuario.setDefaultEditor(Object.class, null);
 
         JButton btnAtras = new JButton("Atras");
@@ -124,12 +128,12 @@ public class JFMUsuarios extends JFrame {
         });
         btnAtras.setBounds(860, 597, 89, 36);
         getContentPane().add(btnAtras);
-        
+
         JButton btnBuscar = new JButton("Buscar");
         btnBuscar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String valorBusqueda = txBusqueda.getText().trim();
-                List<Usuario> resultados = new ArrayList<>();     
+                List<Usuario> resultados = new ArrayList<>();
                 if (valorBusqueda.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Ingrese un término de búsqueda.", "Aviso", JOptionPane.WARNING_MESSAGE);
                 } else if (rdbtnCI.isSelected() || rdbtnNombre.isSelected()) {
@@ -152,12 +156,12 @@ public class JFMUsuarios extends JFrame {
         });
         btnBuscar.setBounds(51, 89, 105, 36);
         getContentPane().add(btnBuscar);
-        
+
         txBusqueda = new JTextField();
         txBusqueda.setBounds(166, 90, 746, 35);
         getContentPane().add(txBusqueda);
         txBusqueda.setColumns(10);
-        
+
         txBusqueda.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -166,21 +170,21 @@ public class JFMUsuarios extends JFrame {
                 }
             }
         });
-        
-        
-        
+
+
+
         btnMostrarTodo.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		cargarDatosDesdeArchivo("Usuarios.txt");
-        	}
+            public void actionPerformed(ActionEvent e) {
+                cargarDatosDesdeArchivo("Usuarios.txt");
+            }
         });
-        
+
         btnMostrarTodo.setBounds(767, 138, 145, 36);
         getContentPane().add(btnMostrarTodo);
-        
+
         cargarDatosDesdeArchivo("Usuarios.txt");
     }
-    
+
 
     private void eliminarUsuario(int ci) {
         List<Usuario> listaUsuarios = obtenerListaUsuariosDesdeArchivo("Usuarios.txt");
@@ -226,8 +230,11 @@ public class JFMUsuarios extends JFrame {
             fila[0] = usuario.getCI(); // CI
             fila[1] = usuario.getNombre(); // Nombre
             fila[2] = usuario.getCelular(); // Celular
-            fila[3] = usuario.isLibroPrestado() ? "Sí" : "No"; // Libros Pendientes (no hay información en el archivo)
-            fila[4] = usuario.isMultaPendiente() ? "Sí" : "No"; // Multas pendientes (no hay información en el archivo)
+            fila[3] = obtenerLibros("Prestamos.txt", usuario.getCI());
+            fila[4] = obtenerMultas("Prestamos.txt", String.valueOf(usuario.getCI()));
+
+            //fila[3] = usuario.isLibroPrestado() ? "Sí" : "No"; // Libros Pendientes
+            //fila[4] = usuario.isMultaPendiente() ? "Sí" : "No"; // Multas pendientes
 
             modelo.addRow(fila);
         }
@@ -237,7 +244,7 @@ public class JFMUsuarios extends JFrame {
         try (BufferedReader reader = new BufferedReader(new FileReader(nombreArchivo))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
-            
+
                 String isbn = extraerValor(linea, "ISBN:");
                 String titulo = extraerValor(reader.readLine(), "Título:");
                 String autor = extraerValor(reader.readLine(), "Autor:");
@@ -251,7 +258,7 @@ public class JFMUsuarios extends JFrame {
                 // Leer la línea en blanco
                 reader.readLine();
             }
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -278,6 +285,72 @@ public class JFMUsuarios extends JFrame {
         }
         return listaUsuario;
     }
+    private String obtenerLibros(String rutaArchivo, int ci) {
+        File archivo = new File(rutaArchivo);
+        int cant = 0;
+        int contador = -1;
+        try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                if (linea.equals("CI: " + ci)){
+                    contador = 5;
+                }
+                if (contador == 1){
+                    if(linea.equals("Estado: Pendiente")) cant++;
+                }
+                contador--;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(cant>0) return "Pendientes: "+cant;
+        else return "Sin pendientes";
+    }
+    private String obtenerMultas(String rutaArchivo, String ci){
+        //MultasYSanciones multa = new MultasYSanciones();
+        File archivo = new File(rutaArchivo);
+        int cant = 0;
+        try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                String idStr = extraerValor(linea, "PrID: ");
+                String ciStr = extraerValor(reader.readLine(), "CI: ");
+                String isbnStr = extraerValor(reader.readLine(), "Codigo Libro: ");
+                String fechaPrestamo = extraerValor(reader.readLine(), "Fecha prestamo: ");
+                String fechaDevolucion = extraerValor(reader.readLine(), "Fecha devolucion: ");
+                String estado = extraerValor(reader.readLine(), "Estado: ");
+                String fechaDevuelto = extraerValor(reader.readLine(), "Fecha devuelto: ");
+
+                if (ciStr.equals(ci)){
+                    if(obtenerMultaB(fechaDevolucion, fechaDevuelto)) cant++;
+                }
+                reader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(cant>0) return "Multas: "+cant;
+        else return "Sin multas";
+    }
+    private boolean obtenerMultaB(String fechaDevolucion, String fechaDevuelto){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        if(Objects.equals(fechaDevuelto, "Sin devolver")){
+            LocalDate fecha = LocalDate.now();
+            String fechaForm = fecha.format(formatter);
+            LocalDate fechaActual = LocalDate.parse(fechaForm, formatter);
+            LocalDate fechaDev = LocalDate.parse(fechaDevolucion, formatter);
+            long diasDiferencia = ChronoUnit.DAYS.between(fechaDev, fechaActual);
+            return (int) diasDiferencia > 0;
+        }
+        else{
+            LocalDate fechaDev1 = LocalDate.parse(fechaDevuelto, formatter);
+            LocalDate fechaDev2 = LocalDate.parse(fechaDevolucion, formatter);
+            long diasDiferencia = ChronoUnit.DAYS.between(fechaDev2, fechaDev1);
+            return (int) diasDiferencia > 0;
+        }
+
+    }
+
     private void cargarDatosTabla(List<Usuario> listaUsuarios) {
         DefaultTableModel modelo = (DefaultTableModel) tableUsuario.getModel();
         modelo.setRowCount(0); // Limpiar la tabla antes de cargar nuevos datos
@@ -288,7 +361,7 @@ public class JFMUsuarios extends JFrame {
             fila[1] = usuario.getNombre(); // Nombre
             fila[2] = usuario.getCelular(); // Celular
             fila[3] = usuario.isLibroPrestado() ? "Sí" : "No";
-            fila[4] = usuario.isMultaPendiente() ? "Sí" : "No"; 
+            fila[4] = usuario.isMultaPendiente() ? "Sí" : "No";
 
             modelo.addRow(fila);
         }
@@ -305,5 +378,3 @@ public class JFMUsuarios extends JFrame {
         });
     }
 }
-
-

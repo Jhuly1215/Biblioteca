@@ -12,15 +12,15 @@ import javax.swing.JPanel;
 import java.awt.Font;
 
 public class panelLibrito extends JPanel {
-	
-	public panelLibrito(Libro libro) {
-		setLayout(null);
-		Font font1= new Font("Times New Roman", Font.BOLD, 18);
-		Font font2= new Font("Times New Roman", Font.PLAIN, 15);
-		JLabel labelTitulo = new JLabel("Título: " + libro.getTitulo());
-		labelTitulo.setFont(font1);
-		labelTitulo.setBounds(294, 34, 505, 28);
-		add(labelTitulo);
+
+    public panelLibrito(Libro libro) {
+        setLayout(null);
+        Font font1= new Font("Times New Roman", Font.BOLD, 18);
+        Font font2= new Font("Times New Roman", Font.PLAIN, 15);
+        JLabel labelTitulo = new JLabel("Título: " + libro.getTitulo());
+        labelTitulo.setFont(font1);
+        labelTitulo.setBounds(294, 34, 505, 28);
+        add(labelTitulo);
         JLabel labelISBN = new JLabel("ISBN: " + libro.getIsbn());
         labelISBN.setFont(font2);
         labelISBN.setBounds(294, 218, 180, 14);
@@ -41,10 +41,10 @@ public class panelLibrito extends JPanel {
         labelFoto.setBounds(23, 23, 250, 250);
         labelFoto.setIcon(new ImageIcon(libro.getRuta()));
         add(labelFoto);
-        
-		
-	}
-	private List<Libro> obtenerListaLibrosDesdeArchivo(String nombreArchivo) {
+
+
+    }
+    private List<Libro> obtenerListaLibrosDesdeArchivo(String nombreArchivo) {
         List<Libro> listaLibros = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(nombreArchivo))) {
             String linea;
