@@ -218,13 +218,6 @@ public class JFMUsuarios extends JFrame {
     private String extraerValor(String linea, String etiqueta) {
         return linea.substring(etiqueta.length()).trim();
     }
-    private String extraerValorM(String linea, String etiqueta) {
-        if (linea.startsWith(etiqueta)) {
-            return linea.substring(etiqueta.length()).trim();
-        } else {
-            return "";
-        }
-    }
 
     private void cargarDatosDesdeArchivo(String nombreArchivo) {
         List<Usuario> listaUsuarios = obtenerListaUsuariosDesdeArchivo(nombreArchivo);
