@@ -3,7 +3,7 @@ Título: Depresión (La vida de un universitario)
 Autor: Un Universitario Sin Sueldo
 Género: Artículo científico
 Año de Publicación: 2023
-Cantidad: 100
+Cantidad: 99
 Ruta de la Imagen: C:\Users\DELL\Downloads\imagenes libro subir\YaNoQuieroSerUniversitario.jpg
 ------------------------------
 ISBN: B0002
@@ -11,7 +11,7 @@ Título: El Diario de Anne Frank
 Autor: Anne Frank
 Género: Biografía
 Año de Publicación: 1947
-Cantidad: 5
+Cantidad: 4
 Ruta de la Imagen: C:\Users\DELL\Downloads\imagenes libro subir\Anne frank.jpg
 ------------------------------
 ISBN: N0004
@@ -19,7 +19,7 @@ Título: Don Quijote de la Mancha
 Autor: Miguel de Cervantes
 Género: Novela
 Año de Publicación: 1605
-Cantidad: 10
+Cantidad: 11
 Ruta de la Imagen: C:\Users\DELL\Downloads\imagenes libro subir\don quijote.jpg
 ------------------------------
 ISBN: E0001
@@ -35,7 +35,7 @@ Título: I'm Glad My Mom Died
 Autor: Jennette McCurdy
 Género: Biografía
 Año de Publicación: 2021
-Cantidad: 3
+Cantidad: 2
 Ruta de la Imagen: C:\Users\DELL\Downloads\imagenes libro subir\ImGladMyMomDied.jpg
 ------------------------------
 ISBN: N0002
@@ -43,7 +43,7 @@ Título: Frankenstein
 Autor: Mary Shelley
 Género: Novela
 Año de Publicación: 1818
-Cantidad: 10
+Cantidad: 8
 Ruta de la Imagen: C:\Users\DELL\Downloads\imagenes libro subir\Frankestein.jpg
 ------------------------------
 ISBN: N0003
@@ -59,6 +59,6 @@ Título: Orgullo y Prejuicio
 Autor: Jane Austen
 Género: Novela
 Año de Publicación: 1813
-Cantidad: 10
+Cantidad: 8
 Ruta de la Imagen: C:\Users\DELL\Downloads\Orgullo y prejuicio(250x250).jpg
 ------------------------------

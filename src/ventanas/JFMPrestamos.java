@@ -53,44 +53,20 @@ public class JFMPrestamos extends JFrame {
         JButton btnEliminar = new JButton("Eliminar");
         btnEliminar.setBounds(637, 581, 150, 23);
         btnEliminar.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		int filaSeleccionada = tablePrestamo.getSelectedRow();
+            public void actionPerformed(ActionEvent e) {
+                int filaSeleccionada = tablePrestamo.getSelectedRow();
                 if (filaSeleccionada >= 0) {
-                	int row = tablePrestamo.getSelectedRow(); // Obtener la fila actualmente seleccionada
                     int confirmacion = JOptionPane.showConfirmDialog(null, "¿Eliminar el préstamo?", "Confirmación", JOptionPane.YES_NO_OPTION);
                     if (confirmacion == JOptionPane.YES_OPTION) {
-                    	String isbn = (String) tablePrestamo.getValueAt(row, 2); // Obtener el ISBN de la fila seleccionada
-                    	DefaultTableModel model = (DefaultTableModel) tablePrestamo.getModel();
+                        String prId = (String) tablePrestamo.getValueAt(filaSeleccionada, 0); // Obtener el PrID de la fila seleccionada
+                        DefaultTableModel model = (DefaultTableModel) tablePrestamo.getModel();
                         model.removeRow(filaSeleccionada);
-                    	try {
-    	                    // Obtener el contenido del archivo
-    	                    List<String> lines = new ArrayList<>();
-    	                    BufferedReader reader = new BufferedReader(new FileReader("Prestamos.txt"));
-    	                    String line;
-    	                    while ((line = reader.readLine()) != null) {
-    	                        lines.add(line);
-    	                    }
-    	                    reader.close();
-    	                    
-    	                    // Eliminar la línea correspondiente al registro
-    	                    int lineToRemove = row * 7; // Cada registro ocupa 5 líneas
-    	                    lines.subList(lineToRemove, lineToRemove + 7).clear();
-    	                    
-    	                    // Escribir de nuevo al archivo
-    	                    BufferedWriter writer = new BufferedWriter(new FileWriter("Prestamos.txt"));
-    	                    for (String writeLine : lines) {
-    	                        writer.write(writeLine + System.getProperty("line.separator"));
-    	                    }
-    	                    writer.close();
-    	                } catch (IOException ex) {
-    	                    ex.printStackTrace();
-    	                }
-                    	actualizarCantidadLibro(isbn); // Llamar al método para aumentar la cantidad de libros
+                        eliminarRegistro(prId);
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "Selecciona una fila para eliminar", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-        	}
+            }
         });
         getContentPane().add(btnEliminar);
 
@@ -119,6 +95,35 @@ public class JFMPrestamos extends JFrame {
         cargarDatosDesdeArchivo("Prestamos.txt");
 
     }
+    private void eliminarRegistro(String prId) {
+        try {
+            List<String> lines = new ArrayList<>();
+            BufferedReader reader = new BufferedReader(new FileReader("Prestamos.txt"));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (!line.startsWith("PrID: " + prId)) {
+                    lines.add(line);
+                } else {
+                    // Saltar las líneas asociadas al préstamo que se está eliminando
+                    for (int i = 0; i < 7; i++) {
+                        reader.readLine();
+                    }
+                }
+            }
+            reader.close();
+
+            BufferedWriter writer = new BufferedWriter(new FileWriter("Prestamos.txt"));
+            for (String writeLine : lines) {
+                writer.write(writeLine + System.getProperty("line.separator"));
+            }
+            writer.close();
+
+            // Luego de eliminar del archivo, puedes realizar otras acciones si es necesario
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void actualizarCantidadLibro(String codigoLibro) {
         try {
             List<String> lines = new ArrayList<>();
@@ -175,7 +180,7 @@ public class JFMPrestamos extends JFrame {
 
 
     private String extraerValor(String linea, String etiqueta) {
-        if (linea.startsWith(etiqueta)) {
+        if (linea != null && linea.startsWith(etiqueta)) {
             return linea.substring(etiqueta.length()).trim();
         } else {
             return "";

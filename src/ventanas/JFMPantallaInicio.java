@@ -101,17 +101,6 @@ public class JFMPantallaInicio extends JFrame {
         btnReservas.setBounds(66, 279, 130, 23);
         contentPane.add(btnReservas);
 
-        JButton btnMultasYSanciones = new JButton("Multas y sanciones");
-        btnMultasYSanciones.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JFMMultasYSanciones frame = new JFMMultasYSanciones();
-                frame.setVisible(true);
-                dispose();
-            }
-        });
-        btnMultasYSanciones.setBounds(66, 336, 130, 23);
-        contentPane.add(btnMultasYSanciones);
-
         JButton btnNewButton = new JButton("Salir");
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
